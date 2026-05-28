@@ -58,19 +58,43 @@ export function MorphingText({
     return () => cancelAnimationFrame(raf)
   }, [chars, cyclesPerChar, intervalMs, staggerMs, startDelayMs, reduce])
 
+  const words: { chars: string[]; offsets: number[] }[] = []
+  let cursor = 0
+  while (cursor < chars.length) {
+    if (chars[cursor] === ' ') {
+      words.push({ chars: [' '], offsets: [cursor] })
+      cursor += 1
+      continue
+    }
+    const start = cursor
+    while (cursor < chars.length && chars[cursor] !== ' ') cursor += 1
+    const slice = chars.slice(start, cursor)
+    words.push({ chars: slice, offsets: slice.map((_, k) => start + k) })
+  }
+
   return (
     <span className={className}>
-      {display.map((c, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: (startDelayMs + i * staggerMs) / 1000, duration: 0.15 }}
-          className="inline-block"
-        >
-          {c === ' ' ? ' ' : c}
-        </motion.span>
-      ))}
+      {words.map((word, wi) =>
+        word.chars[0] === ' ' ? (
+          <span key={`s-${wi}`}> </span>
+        ) : (
+          <span key={`w-${wi}`} className="inline-block whitespace-nowrap">
+            {word.chars.map((_, ci) => {
+              const i = word.offsets[ci]
+              return (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: (startDelayMs + i * staggerMs) / 1000, duration: 0.15 }}
+                >
+                  {display[i]}
+                </motion.span>
+              )
+            })}
+          </span>
+        ),
+      )}
     </span>
   )
 }

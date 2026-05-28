@@ -92,7 +92,7 @@ export default function Apertura() {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-12 text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-[92rem] flex-col items-center px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +106,7 @@ export default function Apertura() {
           <span className="ml-2">Build with AI · OPEN 2026 · Lima</span>
         </motion.div>
 
-        <h1 className="mt-12 text-[clamp(3rem,9vw,8.5rem)] font-semibold leading-[0.95] tracking-tight">
+        <h1 className="mt-12 whitespace-nowrap text-[clamp(2.5rem,7.5vw,7.5rem)] font-semibold leading-[0.95] tracking-tight">
           <MorphingText
             text="Más allá del texto"
             cyclesPerChar={16}
