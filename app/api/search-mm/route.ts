@@ -18,6 +18,11 @@ const Body = z.object({
   collection: z.enum(['dishes', 'songs']).default('dishes'),
 })
 
+function stripSongVectors(raw: Record<string, unknown>): Song {
+  const { embedding_mm: _m, _distance: _d, ...rest } = raw
+  return rest as Song
+}
+
 async function findNearestSongs(vector: number[], k: number): Promise<SearchHit<Song>[]> {
   const snap = await adminDb
     .collection('presentation_songs')
@@ -30,8 +35,12 @@ async function findNearestSongs(vector: number[], k: number): Promise<SearchHit<
     })
     .get()
   return snap.docs.map((d) => {
-    const raw = d.data() as Song & { _distance: number }
-    return { doc: raw, distance: raw._distance, similarity: 1 - raw._distance }
+    const raw = d.data() as Record<string, unknown> & { _distance: number }
+    return {
+      doc: stripSongVectors(raw),
+      distance: raw._distance,
+      similarity: 1 - raw._distance,
+    }
   })
 }
 

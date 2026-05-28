@@ -11,6 +11,8 @@ type Props = {
 }
 
 export function DishCard({ dish, similarity, className, onSelect }: Props) {
+  const hasImage = typeof dish.image_url === 'string' && dish.image_url.length > 0
+
   return (
     <button
       type="button"
@@ -23,13 +25,20 @@ export function DishCard({ dish, similarity, className, onSelect }: Props) {
       )}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-border)]">
-        <Image
-          src={dish.image_url}
-          alt={dish.name_es}
-          fill
-          sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover"
-        />
+        {hasImage ? (
+          <Image
+            src={dish.image_url}
+            alt={dish.name_es}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-cover"
+            unoptimized
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center bg-[var(--color-code-bg)] text-3xl text-[var(--color-muted)]">
+            📄
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-2 p-3">
         <div>

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { adminDb } from '@/lib/firebase-admin'
-import { embedMultimodal } from '@/lib/gemini'
+import { embedMultimodal, embedText } from '@/lib/gemini'
 import { extractPdf } from '@/lib/pdf'
 import { FieldValue } from 'firebase-admin/firestore'
 
@@ -20,9 +20,13 @@ export async function POST(req: Request) {
   const arrBuf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
   const extract = await extractPdf(arrBuf)
 
-  const embedding = await embedMultimodal(extract.text.slice(0, 8000), [
-    { text: extract.text.slice(0, 8000) },
-    { inlineData: { mimeType: 'application/pdf', data: pdfBase64 } },
+  const textForEmbedding = extract.text.slice(0, 8000)
+  const [embedding_text, embedding_mm] = await Promise.all([
+    embedText(textForEmbedding),
+    embedMultimodal(textForEmbedding, [
+      { text: textForEmbedding },
+      { inlineData: { mimeType: 'application/pdf', data: pdfBase64 } },
+    ]),
   ])
 
   const id = `live_${Date.now()}`
@@ -37,14 +41,14 @@ export async function POST(req: Request) {
     tags: ['live', 'indexed_on_stage'],
     image_url: '',
     source_url: '',
-    embedding_text: FieldValue.vector(new Array(768).fill(0)),
-    embedding_mm: FieldValue.vector(embedding),
+    embedding_text: FieldValue.vector(embedding_text),
+    embedding_mm: FieldValue.vector(embedding_mm),
   })
 
   return NextResponse.json({
     id,
     pages: extract.pages,
     chunks: extract.chunks.length,
-    embedding_preview: embedding.slice(0, 16),
+    embedding_preview: embedding_mm.slice(0, 16),
   })
 }
