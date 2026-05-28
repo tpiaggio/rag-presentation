@@ -1,5 +1,8 @@
 import SceneStub from '@/scenes/SceneStub'
+import dynamic from 'next/dynamic'
 import type { SceneDefinition } from './scenes'
+
+const Busqueda = dynamic(() => import('@/scenes/Busqueda'), { ssr: false })
 
 function stub(id: string, title: string): React.ComponentType {
   function Stub() {
@@ -21,7 +24,7 @@ export const SCENES: SceneDefinition[] = [
     Component: stub('como', '¿Cómo funcionan?') },
   { id: 'busqueda',     index: 3, title: 'El problema con la búsqueda',
     notes: 'Primero "ceviche" (ambos hits), después "comida reconfortante".',
-    Component: stub('busqueda', 'El problema con la búsqueda') },
+    Component: Busqueda },
   { id: 'vivo',         index: 4, title: 'Embedding en vivo',
     notes: 'Subir el PDF preparado. Dejar que la animación corra.',
     Component: stub('vivo', 'Embedding en vivo') },
