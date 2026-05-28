@@ -2,9 +2,9 @@ import { CodePanel } from '@/components/CodePanel'
 
 const STACK = [
   ['Stack', 'Next.js 16, React 19, TypeScript estricto, Tailwind v4, Framer Motion'],
-  ['SDK de AI', 'Vercel AI SDK (@ai-sdk/google 3.0.x sobre ai 6.x), igual que Centinel'],
+  ['SDK de AI', 'Vercel AI SDK (@ai-sdk/google 3.0.x sobre ai 6.x)'],
   ['Modelos', 'gemini-embedding-001 (texto, 768d) · gemini-embedding-2 (multimodal, 1536d)'],
-  ['Vector DB', 'Firestore vectorField + findNearest, igual que Centinel'],
+  ['Vector DB', 'Firestore vectorField + findNearest, 100% en Firebase'],
   ['Lo nuevo', 'Sólo el modelo nuevo y un providerOption nuevo. No hay SDK nuevo.'],
 ]
 
@@ -62,7 +62,7 @@ export default function Debajo() {
       </div>
 
       <CodePanel
-        title="El diff completo para que Centinel use multimodal"
+        title="El diff completo para sumar multimodal a un stack de Firebase"
         code={CODE}
         defaultOpen
       />

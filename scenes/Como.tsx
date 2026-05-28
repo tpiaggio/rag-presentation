@@ -9,7 +9,7 @@ const USES = [
   { who: 'Spotify', what: 'recomendaciones de canciones por gusto' },
   { who: 'Google', what: 'búsqueda semántica' },
   { who: 'ChatGPT', what: 'memoria de conversaciones largas' },
-  { who: 'Centinel', what: 'reconocimiento de proveedores en facturas' },
+  { who: 'E-commerce', what: 'productos similares y recomendaciones' },
 ]
 
 export default function Como() {

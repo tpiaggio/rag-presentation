@@ -50,15 +50,18 @@ export default function QuienSoy() {
               hidden: { opacity: 0, y: 12 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            className="space-y-1 text-base leading-relaxed text-[var(--color-muted)]"
+            className="space-y-2 text-base leading-relaxed text-[var(--color-muted)]"
           >
-            <div>
-              <span className="font-semibold text-[var(--color-fg)]">Centinel</span>
-              <span className="ml-2">· pre-contabilidad automatizada</span>
+            <div className="flex items-center gap-2 text-[var(--color-fg)]">
+              <span className="inline-flex size-5 items-center justify-center rounded-md bg-[#F57C00] text-[10px] font-bold text-white">
+
+              </span>
+              <span className="font-semibold">Google Developer Expert</span>
+              <span className="text-[var(--color-muted)]">· Firebase</span>
             </div>
             <p className="max-w-xl pt-3">
-              Trabajo con vector search y modelos de IA todos los días en Centinel. Hoy
-              les muestro lo que aprendí, usando algo que todos conocemos.
+              Trabajo con vector search y modelos de IA todos los días. Hoy les muestro
+              lo que aprendí, usando algo que todos conocemos.
             </p>
           </motion.div>
 

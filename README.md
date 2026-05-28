@@ -18,29 +18,30 @@ A live, keyboard-driven presentation that walks through vector embeddings, retri
 
 ## What this is
 
-Built as an internal team talk for [Centinel](https://centinel.app), delivered in Lima. The slide deck is the app: every "slide" is a real, interactive React component that talks to live Gemini and Firestore. The audience sees the actual model identifiers, the actual embeddings, the actual cosine scores. No screenshots, no smoke and mirrors.
+Built for **Build with AI · OPEN 2026**, a Google Developer Group event in Lima (30 May 2026, UPC San Isidro). The talk is **"Más allá del texto: RAG Multimodal con Gemini y Firestore"**. The slide deck is the app: every "slide" is a real, interactive React component that talks to live Gemini and Firestore. The audience sees the actual model identifiers, the actual embeddings, the actual cosine scores. No screenshots, no smoke and mirrors.
 
 The anchor domain is Peruvian gastronomy because it is universally recognizable to the audience and works across every demo: text descriptions for semantic search, dish photos for image embedding, song clips for audio.
 
-## The talk, in nine scenes
+## The talk, in ten scenes
 
 | # | Scene | What happens |
 |---|---|---|
-| 0 | Apertura | Hero title, presenter intro |
-| 1 | ¿Qué son los embeddings? | Type any word, watch it become 768 numbers via `gemini-embedding-001` |
-| 2 | ¿Cómo funcionan? | Project 36 dishes into 2D via PCA, hover to inspect clusters |
-| 3 | El problema con la búsqueda | Side by side: keyword search returns nothing for "comida reconfortante en día lluvioso", semantic returns ají de gallina, caldo, chupe |
-| 4 | Embedding en vivo | Drag a recipe PDF onto the stage, watch chunking, embedding, and Firestore write animate in real time |
-| 5 | Reconoce la comida que ves | Webcam capture, sent to `gemini-embedding-2` as `inlineData`, top dish matches returned with full recipes |
-| 6 | ¿Qué puedo cocinar? | Pick ingredients from a grid, query as natural-language Spanish, get ranked dishes |
-| 7 | El mismo patrón, otro mundo | Music closer: mood-based search and live MediaRecorder capture against a small Peruvian music collection (huayno, marinera, criolla, chicha, yaraví, festejo) |
-| 8 | Lo que pasa por debajo | The actual stack, costs, model identifiers, and the minimal diff to add multimodal to a text-only codebase |
+| 0 | Apertura | Animated WOW intro with character-morph reveal of the title, drifting embedding numbers, mouse parallax |
+| 1 | Quién soy | Presenter bio: Google Developer Expert for Firebase |
+| 2 | ¿Qué son los embeddings? | Type any word, watch it become 768 numbers via `gemini-embedding-001` |
+| 3 | ¿Cómo funcionan? | Project 36 dishes into 2D via PCA, hover to inspect clusters |
+| 4 | El problema con la búsqueda | Side by side: keyword search returns nothing for "comida reconfortante en día lluvioso", semantic returns ají de gallina, caldo, chupe |
+| 5 | Embedding en vivo | Drag a recipe PDF onto the stage, watch chunking, embedding, and Firestore write animate in real time |
+| 6 | Reconoce la comida que ves | Webcam capture, sent to `gemini-embedding-2` as `inlineData`, top dish matches returned with full recipes |
+| 7 | ¿Qué puedo cocinar? | Pick ingredients from a grid, query as natural-language Spanish, get ranked dishes |
+| 8 | El mismo patrón, otro mundo | Music closer: mood-based search and live MediaRecorder capture against a small Peruvian music collection (huayno, marinera, criolla, chicha, yaraví, festejo) |
+| 9 | Lo que pasa por debajo | The actual stack, costs, model identifiers, and the minimal diff to add multimodal to a text-only Firebase app |
 
 Total runtime: about 35 to 40 minutes.
 
 ## Stack
 
-The same versions Centinel runs in production, on purpose.
+Vercel AI SDK on top of Gemini, Firestore for the vector store. Architecture stays 100% inside Firebase.
 
 | Layer | Choice |
 |---|---|
@@ -53,7 +54,7 @@ The same versions Centinel runs in production, on purpose.
 | Vector store | Firestore `vectorField` and `findNearest` (cosine) |
 | PDF text extraction | `unpdf` |
 
-No `@google/genai`, no Pinecone, no custom embedding API. The "multimodal upgrade" from a text-only Centinel-style codebase is exactly two lines of code: a new model identifier, and a new provider option. The whole point of Scene 8 is showing that diff.
+No `@google/genai`, no Pinecone, no custom embedding API. The "multimodal upgrade" from a text-only Firebase app is exactly two lines of code: a new model identifier, and a new provider option. The whole point of Scene 9 is showing that diff.
 
 ## Setup
 
