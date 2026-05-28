@@ -15,18 +15,31 @@ export function WebcamCapture({ onCapture, className }: Props) {
 
   useEffect(() => {
     let stream: MediaStream | undefined
+    let cancelled = false
     navigator.mediaDevices
       .getUserMedia({ video: { width: 1280, height: 720 }, audio: false })
       .then((s) => {
-        stream = s
-        if (videoRef.current) {
-          videoRef.current.srcObject = s
-          videoRef.current.play()
+        if (cancelled) {
+          s.getTracks().forEach((t) => t.stop())
+          return
         }
+        stream = s
+        const el = videoRef.current
+        if (!el) return
+        el.srcObject = s
+        el.play().catch((err: unknown) => {
+          if (err instanceof DOMException && err.name === 'AbortError') return
+          setError(err instanceof Error ? err.message : String(err))
+        })
         setReady(true)
       })
-      .catch((e) => setError(e.message))
-    return () => stream?.getTracks().forEach((t) => t.stop())
+      .catch((e) => {
+        if (!cancelled) setError(e instanceof Error ? e.message : String(e))
+      })
+    return () => {
+      cancelled = true
+      stream?.getTracks().forEach((t) => t.stop())
+    }
   }, [])
 
   function capture() {
