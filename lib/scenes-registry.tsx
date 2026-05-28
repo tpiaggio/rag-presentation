@@ -6,6 +6,7 @@ const Busqueda = dynamic(() => import('@/scenes/Busqueda'), { ssr: false })
 const Vivo = dynamic(() => import('@/scenes/Vivo'), { ssr: false })
 const Reconoce = dynamic(() => import('@/scenes/Reconoce'), { ssr: false })
 const Cocinar = dynamic(() => import('@/scenes/Cocinar'), { ssr: false })
+const Patron = dynamic(() => import('@/scenes/Patron'), { ssr: false })
 
 function stub(id: string, title: string): React.ComponentType {
   function Stub() {
@@ -39,7 +40,7 @@ export const SCENES: SceneDefinition[] = [
     Component: Cocinar },
   { id: 'patron',       index: 7, title: 'El mismo patrón, otro mundo',
     notes: 'Si te animás, tocar el instrumento al final.',
-    Component: stub('patron', 'El mismo patrón, otro mundo') },
+    Component: Patron },
   { id: 'debajo',       index: 8, title: 'Lo que pasa por debajo',
     notes: 'Cerrar con la analogía del 1 SDK + 1 modelo nuevo.',
     Component: stub('debajo', 'Lo que pasa por debajo') },
