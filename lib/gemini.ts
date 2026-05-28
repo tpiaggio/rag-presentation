@@ -13,6 +13,9 @@ export async function embedText(value: string): Promise<number[]> {
   const { embedding } = await embed({
     model: google.embedding('gemini-embedding-001'),
     value,
+    providerOptions: {
+      google: { outputDimensionality: 768 },
+    },
   })
   return embedding
 }

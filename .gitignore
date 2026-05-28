@@ -7,3 +7,7 @@ node_modules/
 *.tsbuildinfo
 next-env.d.ts
 data/cache/
+
+*-firebase-adminsdk-*.json
+sa.json
+*-service-account.json
