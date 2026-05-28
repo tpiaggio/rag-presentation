@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 export default function QuienSoy() {
   return (
@@ -19,9 +20,16 @@ export default function QuienSoy() {
             hidden: { opacity: 0, scale: 0.94 },
             visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.2, 0.8, 0.2, 1] } },
           }}
-          className="flex size-44 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-6xl font-semibold tracking-tight text-white"
+          className="relative size-52 shrink-0 overflow-hidden rounded-full ring-2 ring-[var(--color-accent)] ring-offset-4 ring-offset-[var(--color-bg)]"
         >
-          TP
+          <Image
+            src="/tomas.jpg"
+            alt="Tomás Piaggio"
+            fill
+            sizes="208px"
+            className="object-cover"
+            priority
+          />
         </motion.div>
 
         <div className="space-y-6">
