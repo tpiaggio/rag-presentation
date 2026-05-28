@@ -42,7 +42,7 @@ export default function Reconoce() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-16">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 05
+          Escena 06
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">Reconoce la comida que ves</h1>
       </header>

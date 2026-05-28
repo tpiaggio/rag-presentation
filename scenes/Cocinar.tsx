@@ -42,7 +42,7 @@ export default function Cocinar() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-16">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 06
+          Escena 07
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">¿Qué puedo cocinar?</h1>
         <p className="text-[var(--color-muted)]">

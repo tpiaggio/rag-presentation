@@ -39,7 +39,7 @@ export default function Embeddings() {
     <div className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-10 px-12">
       <div className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 01
+          Escena 02
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">¿Qué son los embeddings?</h1>
         <p className="text-[var(--color-muted)]">

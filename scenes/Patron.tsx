@@ -63,7 +63,7 @@ export default function Patron() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-16">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 07
+          Escena 08
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">El mismo patrón, otro mundo</h1>
         <p className="text-[var(--color-muted)]">
