@@ -1,31 +1,26 @@
-import SceneStub from '@/scenes/SceneStub'
 import dynamic from 'next/dynamic'
 import type { SceneDefinition } from './scenes'
 
+const Apertura = dynamic(() => import('@/scenes/Apertura'), { ssr: false })
+const Embeddings = dynamic(() => import('@/scenes/Embeddings'), { ssr: false })
+const Como = dynamic(() => import('@/scenes/Como'), { ssr: false })
 const Busqueda = dynamic(() => import('@/scenes/Busqueda'), { ssr: false })
 const Vivo = dynamic(() => import('@/scenes/Vivo'), { ssr: false })
 const Reconoce = dynamic(() => import('@/scenes/Reconoce'), { ssr: false })
 const Cocinar = dynamic(() => import('@/scenes/Cocinar'), { ssr: false })
 const Patron = dynamic(() => import('@/scenes/Patron'), { ssr: false })
-
-function stub(id: string, title: string): React.ComponentType {
-  function Stub() {
-    return <SceneStub id={id} title={title} />
-  }
-  Stub.displayName = `Stub_${id}`
-  return Stub
-}
+const Debajo = dynamic(() => import('@/scenes/Debajo'), { ssr: false })
 
 export const SCENES: SceneDefinition[] = [
   { id: 'apertura',     index: 0, title: 'Apertura y quién soy',
     notes: 'Pídeles que apaguen el celular un minuto. Empezar con una pregunta.',
-    Component: stub('apertura', 'RAG · Embeddings · Multimodal') },
+    Component: Apertura },
   { id: 'embeddings',   index: 1, title: '¿Qué son los embeddings?',
     notes: 'Llevar la analogía del "número que representa significado".',
-    Component: stub('embeddings', '¿Qué son los embeddings?') },
+    Component: Embeddings },
   { id: 'como',         index: 2, title: '¿Cómo funcionan?',
     notes: 'Cluster visual + nombrar 3 usos: Spotify, Google, Centinel.',
-    Component: stub('como', '¿Cómo funcionan?') },
+    Component: Como },
   { id: 'busqueda',     index: 3, title: 'El problema con la búsqueda',
     notes: 'Primero "ceviche" (ambos hits), después "comida reconfortante".',
     Component: Busqueda },
@@ -43,5 +38,5 @@ export const SCENES: SceneDefinition[] = [
     Component: Patron },
   { id: 'debajo',       index: 8, title: 'Lo que pasa por debajo',
     notes: 'Cerrar con la analogía del 1 SDK + 1 modelo nuevo.',
-    Component: stub('debajo', 'Lo que pasa por debajo') },
+    Component: Debajo },
 ]
