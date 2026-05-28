@@ -11,31 +11,32 @@
     "ingest:music": "tsx scripts/ingest-music.ts"
   },
   "dependencies": {
-    "next": "16.2.6",
-    "react": "^19",
-    "react-dom": "^19",
-    "ai": "6.0.191",
     "@ai-sdk/google": "^3.0.79",
     "@ai-sdk/provider": "3.0.10",
     "@ai-sdk/provider-utils": "4.0.27",
+    "ai": "6.0.191",
+    "clsx": "2.1.1",
     "firebase-admin": "^13.10.0",
     "framer-motion": "12.23.24",
     "lucide-react": "^0.546.0",
+    "next": "16.2.6",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwind-merge": "3.4.0",
     "unpdf": "1.4.0",
-    "zod": "4.1.13",
-    "clsx": "2.1.1",
-    "tailwind-merge": "3.4.0"
+    "zod": "4.1.13"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "4.1.16",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5.7.2",
-    "tailwindcss": "4.1.16",
-    "@tailwindcss/postcss": "4.1.16",
+    "dotenv": "16.4.5",
+    "pdf-lib": "^1.17.1",
     "postcss": "8.5.5",
+    "tailwindcss": "4.1.16",
     "tsx": "^4.22.3",
-    "dotenv": "16.4.5"
+    "typescript": "^5.7.2"
   },
   "packageManager": "pnpm@10.18.0"
 }
