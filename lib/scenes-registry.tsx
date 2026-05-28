@@ -4,6 +4,7 @@ import type { SceneDefinition } from './scenes'
 
 const Busqueda = dynamic(() => import('@/scenes/Busqueda'), { ssr: false })
 const Vivo = dynamic(() => import('@/scenes/Vivo'), { ssr: false })
+const Reconoce = dynamic(() => import('@/scenes/Reconoce'), { ssr: false })
 
 function stub(id: string, title: string): React.ComponentType {
   function Stub() {
@@ -31,7 +32,7 @@ export const SCENES: SceneDefinition[] = [
     Component: Vivo },
   { id: 'reconoce',     index: 5, title: 'Reconoce la comida que ves',
     notes: 'Tener un dish photo listo en el celular.',
-    Component: stub('reconoce', 'Reconoce la comida que ves') },
+    Component: Reconoce },
   { id: 'cocinar',      index: 6, title: '¿Qué puedo cocinar?',
     notes: 'Pedirle a la audiencia que sume 1 ingrediente.',
     Component: stub('cocinar', '¿Qué puedo cocinar?') },
