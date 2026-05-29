@@ -162,6 +162,8 @@ export default function Patron() {
   )
 }
 
+type UploadStatus = 'idle' | 'analyzing' | 'analyzed' | 'uploading' | 'done' | 'error'
+
 function UploadForm({ onUploaded }: { onUploaded: () => void }) {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
@@ -169,15 +171,48 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
   const [region, setRegion] = useState('')
   const [description, setDescription] = useState('')
   const [moodInput, setMoodInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'uploading' | 'done' | 'error'>('idle')
+  const [status, setStatus] = useState<UploadStatus>('idle')
   const [errorMessage, setErrorMessage] = useState<string>()
+  const [audioCache, setAudioCache] = useState<{ base64: string; mimeType: string } | null>(null)
+
+  async function onFile(picked: File) {
+    setFile(picked)
+    setStatus('analyzing')
+    setErrorMessage(undefined)
+    try {
+      const audioBase64 = await fileToBase64(picked)
+      const mimeType = picked.type || 'audio/mpeg'
+      setAudioCache({ base64: audioBase64, mimeType })
+      const res = await fetch('/api/songs/analyze', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ filename: picked.name, audioBase64, mimeType }),
+      })
+      if (!res.ok) throw new Error(`Analyze ${res.status}`)
+      const meta = (await res.json()) as {
+        title: string
+        genre: SongGenre
+        region: string
+        description: string
+        mood_tags: string[]
+      }
+      setTitle(meta.title)
+      setGenre(meta.genre)
+      setRegion(meta.region)
+      setDescription(meta.description)
+      setMoodInput(meta.mood_tags.join(', '))
+      setStatus('analyzed')
+    } catch (e) {
+      setErrorMessage(e instanceof Error ? e.message : String(e))
+      setStatus('error')
+    }
+  }
 
   async function submit() {
-    if (!file || !title.trim()) return
+    if (!file || !title.trim() || !audioCache) return
     setStatus('uploading')
     setErrorMessage(undefined)
     try {
-      const audioBase64 = await fileToBase64(file)
       const mood_tags = moodInput
         .split(',')
         .map((s) => s.trim())
@@ -191,8 +226,8 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
           region: region.trim() || undefined,
           description: description.trim() || undefined,
           mood_tags: mood_tags.length ? mood_tags : undefined,
-          audioBase64,
-          mimeType: file.type || 'audio/mpeg',
+          audioBase64: audioCache.base64,
+          mimeType: audioCache.mimeType,
         }),
       })
       if (!res.ok) throw new Error(`Upload ${res.status}`)
@@ -219,19 +254,26 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
         onDrop={(e) => {
           e.preventDefault()
           const f = e.dataTransfer.files[0]
-          if (f) setFile(f)
+          if (f) onFile(f)
         }}
       >
         <span className="text-3xl">🎵</span>
         <span className="font-semibold">{file ? file.name : 'Arrastrá un mp3 acá'}</span>
-        <span className="text-xs text-[var(--color-muted)]">o hacé click</span>
+        <span className="text-xs text-[var(--color-muted)]">
+          {status === 'analyzing'
+            ? 'Gemini está analizando el clip…'
+            : status === 'analyzed'
+              ? 'Metadatos sugeridos por Gemini, editá si querés'
+              : 'o hacé click'}
+        </span>
+        {status === 'analyzing' && <LoadingDot size={20} />}
         <input
           type="file"
           accept="audio/*"
           className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0]
-            if (f) setFile(f)
+            if (f) onFile(f)
           }}
         />
       </label>
@@ -280,12 +322,23 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
           <button
             type="button"
             onClick={submit}
-            disabled={!file || !title.trim() || status === 'uploading'}
+            disabled={
+              !file ||
+              !title.trim() ||
+              status === 'uploading' ||
+              status === 'analyzing'
+            }
             className="rounded-md bg-[var(--color-fg)] px-5 py-2 text-sm text-white disabled:opacity-40"
           >
-            {status === 'uploading' ? 'Subiendo…' : status === 'done' ? '¡Listo!' : 'Subir y embeber'}
+            {status === 'uploading'
+              ? 'Subiendo…'
+              : status === 'done'
+                ? '¡Listo!'
+                : status === 'analyzing'
+                  ? 'Esperando análisis…'
+                  : 'Subir y embeber'}
           </button>
-          {status === 'uploading' && <LoadingDot size={16} />}
+          {(status === 'uploading' || status === 'analyzing') && <LoadingDot size={16} />}
           {status === 'done' && (
             <span className="text-xs text-[var(--color-accent-3)]">
               Embebida y guardada en presentation_songs ·
