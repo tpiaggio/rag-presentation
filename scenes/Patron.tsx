@@ -65,7 +65,7 @@ export default function Patron() {
           query: '',
           content: [{ inlineData: { mimeType, data: base64 } }],
           collection: 'songs',
-          k: 6,
+          k: 1,
         }),
       })
       const { hits } = (await res.json()) as { hits: SearchHit<Song>[] }
