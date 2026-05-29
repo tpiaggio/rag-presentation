@@ -5,14 +5,18 @@ import { readFileSync } from 'node:fs'
 
 function init() {
   if (getApps().length > 0) return
-  const path = process.env.FIREBASE_ADMIN_SA_PATH
-  if (!path) throw new Error('FIREBASE_ADMIN_SA_PATH is not set')
-  const credential = cert(JSON.parse(readFileSync(path, 'utf-8')))
-  initializeApp({
-    credential,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  })
+
+  const projectId = process.env.FIREBASE_PROJECT_ID
+  const storageBucket = process.env.FIREBASE_STORAGE_BUCKET
+  const saPath = process.env.FIREBASE_ADMIN_SA_PATH
+
+  if (saPath) {
+    const credential = cert(JSON.parse(readFileSync(saPath, 'utf-8')))
+    initializeApp({ credential, projectId, storageBucket })
+    return
+  }
+
+  initializeApp({ projectId, storageBucket })
 }
 
 init()

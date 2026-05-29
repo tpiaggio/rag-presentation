@@ -1,0 +1,27 @@
+runConfig:
+  cpu: 1
+  memoryMiB: 1024
+  maxInstances: 2
+  minInstances: 0
+  concurrency: 80
+
+env:
+  - variable: FIREBASE_PROJECT_ID
+    value: rag-demo-963ae
+    availability:
+      - RUNTIME
+
+  - variable: FIREBASE_STORAGE_BUCKET
+    value: rag-demo-963ae.firebasestorage.app
+    availability:
+      - RUNTIME
+
+  - variable: GOOGLE_GENERATIVE_AI_API_KEY
+    secret: GOOGLE_GENERATIVE_AI_API_KEY
+    availability:
+      - RUNTIME
+
+  - variable: ACCESS_PASSCODE
+    secret: ACCESS_PASSCODE
+    availability:
+      - RUNTIME
