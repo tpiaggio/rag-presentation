@@ -86,13 +86,22 @@ export default function Gracias() {
 
         <h1 className="mt-10 whitespace-nowrap text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.95] tracking-tight">
           <MorphingText
-            text="Gracias."
+            text="Sulpayki."
             cyclesPerChar={18}
             intervalMs={40}
             staggerMs={70}
             startDelayMs={500}
           />
         </h1>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 2.0 }}
+          className="mt-3 text-base lowercase tracking-[0.3em] text-[var(--color-muted)]"
+        >
+          gracias · en quechua
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
