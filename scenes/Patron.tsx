@@ -167,7 +167,7 @@ type UploadStatus = 'idle' | 'analyzing' | 'analyzed' | 'uploading' | 'done' | '
 function UploadForm() {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
-  const [genre, setGenre] = useState<SongGenre>('huayno')
+  const [genre, setGenre] = useState<SongGenre | ''>('')
   const [region, setRegion] = useState('')
   const [description, setDescription] = useState('')
   const [moodInput, setMoodInput] = useState('')
@@ -209,7 +209,7 @@ function UploadForm() {
   }
 
   async function submit() {
-    if (!file || !title.trim() || !audioCache) return
+    if (!file || !title.trim() || !audioCache || !genre) return
     setStatus('uploading')
     setErrorMessage(undefined)
     try {
@@ -259,11 +259,17 @@ function UploadForm() {
           />
           <select
             value={genre}
-            onChange={(e) => setGenre(e.target.value as SongGenre)}
-            className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+            onChange={(e) => setGenre(e.target.value as SongGenre | '')}
+            className={cn(
+              'rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm',
+              genre === '' && 'text-[var(--color-muted)]',
+            )}
           >
+            <option value="" disabled>
+              Género *
+            </option>
             {GENRES.map((g) => (
-              <option key={g} value={g}>
+              <option key={g} value={g} className="text-[var(--color-fg)]">
                 {g}
               </option>
             ))}
@@ -296,6 +302,7 @@ function UploadForm() {
             disabled={
               !file ||
               !title.trim() ||
+              !genre ||
               status === 'uploading' ||
               status === 'analyzing'
             }
