@@ -133,7 +133,7 @@ export default function Patron() {
         </div>
       )}
 
-      {mode === 'upload' && <UploadForm onUploaded={() => setMode('mood')} />}
+      {mode === 'upload' && <UploadForm />}
 
       <div className="grid grid-cols-3 gap-3 pt-4">
         {hits.map((h) => (
@@ -164,7 +164,7 @@ export default function Patron() {
 
 type UploadStatus = 'idle' | 'analyzing' | 'analyzed' | 'uploading' | 'done' | 'error'
 
-function UploadForm({ onUploaded }: { onUploaded: () => void }) {
+function UploadForm() {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
   const [genre, setGenre] = useState<SongGenre>('huayno')
@@ -232,9 +232,6 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
       })
       if (!res.ok) throw new Error(`Upload ${res.status}`)
       setStatus('done')
-      setTimeout(() => {
-        onUploaded()
-      }, 900)
     } catch (e) {
       setErrorMessage(e instanceof Error ? e.message : String(e))
       setStatus('error')
@@ -315,7 +312,7 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
           {(status === 'uploading' || status === 'analyzing') && <LoadingDot size={16} />}
           {status === 'done' && (
             <span className="text-xs text-[var(--color-accent-3)]">
-              Embebida y guardada en presentation_songs ·
+              ¡Embebida y guardada! Probá &quot;Buscar por mood&quot; cuando quieras.
             </span>
           )}
           {status === 'error' && (
