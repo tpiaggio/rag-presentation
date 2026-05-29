@@ -53,3 +53,7 @@ export async function embedManyMultimodal(
   })
   return embeddings
 }
+
+// Modelo generativo para la respuesta RAG (escena "Pregúntale a la comida").
+// Si este id devuelve 404 en tu proyecto, cambialo acá en un solo lugar.
+export const GENERATION_MODEL = 'gemini-3.5-flash'

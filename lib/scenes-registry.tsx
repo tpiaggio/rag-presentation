@@ -9,6 +9,7 @@ const Busqueda = dynamic(() => import('@/scenes/Busqueda'), { ssr: false })
 const Vivo = dynamic(() => import('@/scenes/Vivo'), { ssr: false })
 const Reconoce = dynamic(() => import('@/scenes/Reconoce'), { ssr: false })
 const Cocinar = dynamic(() => import('@/scenes/Cocinar'), { ssr: false })
+const Pregunta = dynamic(() => import('@/scenes/Pregunta'), { ssr: false })
 const Patron = dynamic(() => import('@/scenes/Patron'), { ssr: false })
 const Debajo = dynamic(() => import('@/scenes/Debajo'), { ssr: false })
 const Gracias = dynamic(() => import('@/scenes/Gracias'), { ssr: false })
@@ -38,13 +39,16 @@ export const SCENES: SceneDefinition[] = [
   { id: 'cocinar',      index: 7, title: '¿Qué puedo cocinar?',
     notes: 'Pedirle a la audiencia que sume 1 ingrediente.',
     Component: Cocinar },
-  { id: 'patron',       index: 8, title: 'El mismo patrón, otro mundo',
+  { id: 'pregunta',     index: 8, title: 'Pregúntale a la comida',
+    notes: 'Acá se cierra el RAG: mostrar primero el contexto recuperado, después la respuesta. Recalcar que la respuesta sale SOLO de esos platos.',
+    Component: Pregunta },
+  { id: 'patron',       index: 9, title: 'El mismo patrón, otro mundo',
     notes: 'Si te animás, tocar el instrumento al final.',
     Component: Patron },
-  { id: 'debajo',       index: 9, title: 'Lo que pasa por debajo',
+  { id: 'debajo',       index: 10, title: 'Lo que pasa por debajo',
     notes: 'Cerrar con la analogía del 1 SDK + 1 modelo nuevo.',
     Component: Debajo },
-  { id: 'gracias',      index: 10, title: 'Gracias',
+  { id: 'gracias',      index: 11, title: 'Gracias',
     notes: 'Dejá que la imagen se anime. No leas la slide; mirá a la gente. Esperá los aplausos. Después abrí Q&A.',
     Component: Gracias },
-]
+  ]
