@@ -5,7 +5,8 @@ import { AudioRecorder } from '@/components/AudioRecorder'
 import { LoadingDot } from '@/components/LoadingDot'
 import { SimilarityBar } from '@/components/SimilarityBar'
 import { CodePanel } from '@/components/CodePanel'
-import type { Song, SearchHit } from '@/lib/types'
+import { cn } from '@/lib/cn'
+import type { Song, SongGenre, SearchHit } from '@/lib/types'
 
 const CODE = `const vector = await embedMultimodal('', [
   { inlineData: { mimeType: 'audio/webm', data: recordedBase64 } },
@@ -19,10 +20,25 @@ const MOODS = [
   'tarde nostálgica con guitarra criolla',
 ]
 
+const GENRES: SongGenre[] = ['huayno', 'marinera', 'criolla', 'chicha', 'yaravi', 'festejo']
+
+type Mode = 'mood' | 'live' | 'upload'
+
+async function fileToBase64(file: File): Promise<string> {
+  const buf = await file.arrayBuffer()
+  let binary = ''
+  const bytes = new Uint8Array(buf)
+  const chunk = 0x8000
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk))
+  }
+  return btoa(binary)
+}
+
 export default function Patron() {
   const [hits, setHits] = useState<SearchHit<Song>[]>([])
   const [loading, setLoading] = useState(false)
-  const [mode, setMode] = useState<'mood' | 'live'>('mood')
+  const [mode, setMode] = useState<Mode>('mood')
 
   async function searchByMood(mood: string) {
     setLoading(true)
@@ -71,31 +87,28 @@ export default function Patron() {
         </p>
       </header>
 
-      <div className="flex gap-2 text-xs">
-        <button
-          type="button"
-          onClick={() => setMode('mood')}
-          className={
-            'rounded-full border px-3 py-1 ' +
-            (mode === 'mood'
-              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
-              : 'border-[var(--color-border)] text-[var(--color-muted)]')
-          }
-        >
-          Buscar por mood
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('live')}
-          className={
-            'rounded-full border px-3 py-1 ' +
-            (mode === 'live'
-              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
-              : 'border-[var(--color-border)] text-[var(--color-muted)]')
-          }
-        >
-          Grabar en vivo (instrumento)
-        </button>
+      <div className="flex flex-wrap gap-2 text-xs">
+        {(
+          [
+            ['mood', 'Buscar por mood'],
+            ['live', 'Grabar en vivo (instrumento)'],
+            ['upload', 'Subir canción'],
+          ] as [Mode, string][]
+        ).map(([m, label]) => (
+          <button
+            key={m}
+            type="button"
+            onClick={() => setMode(m)}
+            className={cn(
+              'rounded-full border px-3 py-1',
+              mode === m
+                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+                : 'border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-fg)]',
+            )}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {mode === 'mood' && (
@@ -120,6 +133,8 @@ export default function Patron() {
         </div>
       )}
 
+      {mode === 'upload' && <UploadForm onUploaded={() => setMode('mood')} />}
+
       <div className="grid grid-cols-3 gap-3 pt-4">
         {hits.map((h) => (
           <div
@@ -129,7 +144,8 @@ export default function Patron() {
             <div>
               <div className="font-semibold tracking-tight">{h.doc.title}</div>
               <div className="text-xs text-[var(--color-muted)]">
-                {h.doc.genre} · {h.doc.region}
+                {h.doc.genre}
+                {h.doc.region ? ` · ${h.doc.region}` : ''}
               </div>
             </div>
             {h.doc.audio_clip_url && (
@@ -142,6 +158,144 @@ export default function Patron() {
       </div>
 
       <CodePanel code={CODE} />
+    </div>
+  )
+}
+
+function UploadForm({ onUploaded }: { onUploaded: () => void }) {
+  const [file, setFile] = useState<File | null>(null)
+  const [title, setTitle] = useState('')
+  const [genre, setGenre] = useState<SongGenre>('huayno')
+  const [region, setRegion] = useState('')
+  const [description, setDescription] = useState('')
+  const [moodInput, setMoodInput] = useState('')
+  const [status, setStatus] = useState<'idle' | 'uploading' | 'done' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>()
+
+  async function submit() {
+    if (!file || !title.trim()) return
+    setStatus('uploading')
+    setErrorMessage(undefined)
+    try {
+      const audioBase64 = await fileToBase64(file)
+      const mood_tags = moodInput
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+      const res = await fetch('/api/songs/upload', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: title.trim(),
+          genre,
+          region: region.trim() || undefined,
+          description: description.trim() || undefined,
+          mood_tags: mood_tags.length ? mood_tags : undefined,
+          audioBase64,
+          mimeType: file.type || 'audio/mpeg',
+        }),
+      })
+      if (!res.ok) throw new Error(`Upload ${res.status}`)
+      setStatus('done')
+      setTimeout(() => {
+        onUploaded()
+      }, 900)
+    } catch (e) {
+      setErrorMessage(e instanceof Error ? e.message : String(e))
+      setStatus('error')
+    }
+  }
+
+  return (
+    <div className="grid grid-cols-2 gap-6">
+      <label
+        className={cn(
+          'flex aspect-square min-h-[220px] cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed text-center transition-colors',
+          file
+            ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/5'
+            : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)]',
+        )}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault()
+          const f = e.dataTransfer.files[0]
+          if (f) setFile(f)
+        }}
+      >
+        <span className="text-3xl">🎵</span>
+        <span className="font-semibold">{file ? file.name : 'Arrastrá un mp3 acá'}</span>
+        <span className="text-xs text-[var(--color-muted)]">o hacé click</span>
+        <input
+          type="file"
+          accept="audio/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) setFile(f)
+          }}
+        />
+      </label>
+
+      <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Título *"
+            className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+          />
+          <select
+            value={genre}
+            onChange={(e) => setGenre(e.target.value as SongGenre)}
+            className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+          >
+            {GENRES.map((g) => (
+              <option key={g} value={g}>
+                {g}
+              </option>
+            ))}
+          </select>
+        </div>
+        <input
+          value={region}
+          onChange={(e) => setRegion(e.target.value)}
+          placeholder="Región (opcional) — Cuzco, Lima, Arequipa…"
+          className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+        />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Descripción corta (opcional) — instrumentos, sentimiento, contexto"
+          rows={3}
+          className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm leading-relaxed"
+        />
+        <input
+          value={moodInput}
+          onChange={(e) => setMoodInput(e.target.value)}
+          placeholder="Mood tags separados por coma (opcional) — triste, festivo, andino"
+          className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+        />
+
+        <div className="flex items-center gap-3 pt-1">
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!file || !title.trim() || status === 'uploading'}
+            className="rounded-md bg-[var(--color-fg)] px-5 py-2 text-sm text-white disabled:opacity-40"
+          >
+            {status === 'uploading' ? 'Subiendo…' : status === 'done' ? '¡Listo!' : 'Subir y embeber'}
+          </button>
+          {status === 'uploading' && <LoadingDot size={16} />}
+          {status === 'done' && (
+            <span className="text-xs text-[var(--color-accent-3)]">
+              Embebida y guardada en presentation_songs ·
+            </span>
+          )}
+          {status === 'error' && (
+            <span className="text-xs text-[var(--color-accent)]">{errorMessage}</span>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
