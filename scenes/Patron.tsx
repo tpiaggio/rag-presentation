@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AudioRecorder } from '@/components/AudioRecorder'
 import { LoadingDot } from '@/components/LoadingDot'
 import { SimilarityBar } from '@/components/SimilarityBar'
@@ -241,42 +241,16 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
     }
   }
 
+  const audioObjectUrl = useAudioObjectUrl(file)
+
   return (
-    <div className="grid grid-cols-2 gap-6">
-      <label
-        className={cn(
-          'flex aspect-square min-h-[220px] cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed text-center transition-colors',
-          file
-            ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/5'
-            : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)]',
-        )}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault()
-          const f = e.dataTransfer.files[0]
-          if (f) onFile(f)
-        }}
-      >
-        <span className="text-3xl">🎵</span>
-        <span className="font-semibold">{file ? file.name : 'Arrastrá un mp3 acá'}</span>
-        <span className="text-xs text-[var(--color-muted)]">
-          {status === 'analyzing'
-            ? 'Gemini está analizando el clip…'
-            : status === 'analyzed'
-              ? 'Metadatos sugeridos por Gemini, editá si querés'
-              : 'o hacé click'}
-        </span>
-        {status === 'analyzing' && <LoadingDot size={20} />}
-        <input
-          type="file"
-          accept="audio/*"
-          className="hidden"
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) onFile(f)
-          }}
-        />
-      </label>
+    <div className="grid grid-cols-2 items-stretch gap-6">
+      <DropZone
+        file={file}
+        status={status}
+        audioObjectUrl={audioObjectUrl}
+        onFile={onFile}
+      />
 
       <div className="flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-2">
@@ -349,6 +323,105 @@ function UploadForm({ onUploaded }: { onUploaded: () => void }) {
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+function useAudioObjectUrl(file: File | null): string | null {
+  const [url, setUrl] = useState<string | null>(null)
+  useEffect(() => {
+    if (!file) {
+      setUrl(null)
+      return
+    }
+    const objectUrl = URL.createObjectURL(file)
+    setUrl(objectUrl)
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [file])
+  return url
+}
+
+function DropZone({
+  file,
+  status,
+  audioObjectUrl,
+  onFile,
+}: {
+  file: File | null
+  status: UploadStatus
+  audioObjectUrl: string | null
+  onFile: (f: File) => void
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col items-stretch justify-center gap-3 rounded-md border-2 border-dashed p-6 text-center transition-colors',
+        file
+          ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/5'
+          : 'border-[var(--color-border)] bg-[var(--color-surface)]',
+      )}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        e.preventDefault()
+        const f = e.dataTransfer.files[0]
+        if (f) onFile(f)
+      }}
+    >
+      {!file ? (
+        <label className="flex cursor-pointer flex-col items-center gap-2">
+          <span className="text-4xl">🎵</span>
+          <span className="font-semibold">Arrastrá un mp3 acá</span>
+          <span className="text-xs text-[var(--color-muted)]">o hacé click</span>
+          <input
+            type="file"
+            accept="audio/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) onFile(f)
+            }}
+          />
+        </label>
+      ) : (
+        <>
+          <div className="flex items-center justify-center gap-2 text-2xl">🎵</div>
+          <div className="font-semibold">{file.name}</div>
+          {audioObjectUrl && (
+            <audio
+              src={audioObjectUrl}
+              controls
+              preload="metadata"
+              className="w-full"
+            />
+          )}
+          <div className="flex items-center justify-center gap-2 text-xs text-[var(--color-muted)]">
+            {status === 'analyzing' && <LoadingDot size={14} />}
+            <span>
+              {status === 'analyzing'
+                ? 'Gemini está analizando el clip…'
+                : status === 'analyzed'
+                  ? 'Metadatos sugeridos por Gemini, editá si querés'
+                  : status === 'uploading'
+                    ? 'Subiendo a Firebase Storage…'
+                    : status === 'done'
+                      ? '¡Listo!'
+                      : 'Listo para subir'}
+            </span>
+          </div>
+          <label className="cursor-pointer text-xs text-[var(--color-muted)] underline">
+            Cambiar archivo
+            <input
+              type="file"
+              accept="audio/*"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                if (f) onFile(f)
+              }}
+            />
+          </label>
+        </>
+      )}
     </div>
   )
 }
