@@ -95,15 +95,6 @@ export default function Gracias() {
         </h1>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 2.0 }}
-          className="mt-3 text-base lowercase tracking-[0.3em] text-[var(--color-muted)]"
-        >
-          gracias · en quechua
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 2.2, ease: [0.2, 0.8, 0.2, 1] }}
@@ -144,10 +135,10 @@ export default function Gracias() {
               </a>
               <span className="text-[var(--color-muted)]">·</span>
               <a
-                href="https://www.linkedin.com/in/tpiaggio/"
+                href="https://linkedin.com/in/tomas-piaggio"
                 className="text-[var(--color-accent)] hover:underline"
               >
-                in/tpiaggio
+                in/tomas-piaggio
               </a>
             </div>
           </div>
