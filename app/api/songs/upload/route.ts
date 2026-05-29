@@ -49,13 +49,26 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join('\n')
 
-  const [embedding_mm, audio_clip_url] = await Promise.all([
-    embedMultimodal(text, [
+  const audio_clip_url_promise = uploadAudio(id, mimeType, audioBytes)
+
+  let embedding_mm: number[]
+  let embed_mode: 'audio+text' | 'text-only' = 'audio+text'
+  let embed_warning: string | undefined
+  try {
+    embedding_mm = await embedMultimodal(text, [
       { text },
       { inlineData: { mimeType, data: audioBase64 } },
-    ]),
-    uploadAudio(id, mimeType, audioBytes),
-  ])
+    ])
+  } catch (audioErr) {
+    embed_mode = 'text-only'
+    embed_warning =
+      audioErr instanceof Error
+        ? audioErr.message
+        : 'audio embed failed, used text fallback'
+    embedding_mm = await embedMultimodal(text)
+  }
+
+  const audio_clip_url = await audio_clip_url_promise
 
   const doc: Song = {
     id,
@@ -79,5 +92,7 @@ export async function POST(req: Request) {
     genre,
     audio_clip_url,
     embedding_preview: embedding_mm.slice(0, 16),
+    embed_mode,
+    embed_warning,
   })
 }

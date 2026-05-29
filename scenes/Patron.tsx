@@ -174,6 +174,7 @@ function UploadForm() {
   const [status, setStatus] = useState<UploadStatus>('idle')
   const [errorMessage, setErrorMessage] = useState<string>()
   const [audioCache, setAudioCache] = useState<{ base64: string; mimeType: string } | null>(null)
+  const [embedMode, setEmbedMode] = useState<'audio+text' | 'text-only' | null>(null)
 
   async function onFile(picked: File) {
     setFile(picked)
@@ -231,6 +232,8 @@ function UploadForm() {
         }),
       })
       if (!res.ok) throw new Error(`Upload ${res.status}`)
+      const json = (await res.json()) as { embed_mode?: 'audio+text' | 'text-only' }
+      setEmbedMode(json.embed_mode ?? null)
       setStatus('done')
     } catch (e) {
       setErrorMessage(e instanceof Error ? e.message : String(e))
@@ -319,7 +322,11 @@ function UploadForm() {
           {(status === 'uploading' || status === 'analyzing') && <LoadingDot size={16} />}
           {status === 'done' && (
             <span className="text-xs text-[var(--color-accent-3)]">
-              ¡Embebida y guardada! Probá &quot;Buscar por mood&quot; cuando quieras.
+              ¡Embebida y guardada!
+              {embedMode === 'text-only'
+                ? ' (audio muy largo, usamos texto solo)'
+                : ' (audio + texto)'}{' '}
+              Probá &quot;Buscar por mood&quot; cuando quieras.
             </span>
           )}
           {status === 'error' && (
