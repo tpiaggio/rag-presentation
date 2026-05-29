@@ -1,0 +1,13 @@
+rules_version = '2';
+
+// All client access via the Firebase Storage SDK is denied.
+// Dish photos and audio clips are uploaded with file.makePublic() which sets
+// an object-level public ACL, so direct googleapis.com URLs still serve them.
+// Admin SDK uploads from server routes bypass these rules entirely.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
