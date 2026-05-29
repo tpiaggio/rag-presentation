@@ -16,7 +16,7 @@ const schema = z.object({
   genre: z.enum(GENRES).describe('Uno de: huayno, marinera, criolla, chicha, yaravi, festejo.'),
   region: z.string().describe('Región peruana asociada al género o estilo del clip (Cuzco, Lima, Arequipa, etc.).'),
   description: z.string().describe('Descripción corta en español (2 frases) sobre instrumentos, ritmo y sentimiento.'),
-  mood_tags: z.array(z.string()).min(3).max(6).describe('Mood tags en español, minúsculas, sin acentos opcionales.'),
+  mood_tags: z.array(z.string()).min(2).max(12).describe('Mood tags en español, minúsculas, sin acentos opcionales. Entre 3 y 6 idealmente.'),
 })
 
 export async function POST(req: Request) {
