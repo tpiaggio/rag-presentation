@@ -14,10 +14,9 @@ const CODE = `const vector = await embedMultimodal('', [
 const hits = await findNearestSongs(vector, 6)`
 
 const MOODS = [
-  'triste pero esperanzador',
-  'celebración del verano costeño',
-  'andino festivo',
-  'tarde nostálgica con guitarra criolla',
+  'paisajes andinos con zampoñas, instrumental y nostálgico',
+  'fiesta del pueblo con interacción de guitarra y charango',
+  'tristeza por un amor que se fue',
 ]
 
 const GENRES: SongGenre[] = ['huayno', 'marinera', 'criolla', 'chicha', 'yaravi', 'festejo']
