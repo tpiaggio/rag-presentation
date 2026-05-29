@@ -66,10 +66,6 @@ export default function Debajo() {
         code={CODE}
         defaultOpen
       />
-
-      <div className="mt-auto text-center text-[var(--color-muted)]">
-        Gracias.
-      </div>
     </div>
   )
 }

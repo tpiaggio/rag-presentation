@@ -11,6 +11,7 @@ const Reconoce = dynamic(() => import('@/scenes/Reconoce'), { ssr: false })
 const Cocinar = dynamic(() => import('@/scenes/Cocinar'), { ssr: false })
 const Patron = dynamic(() => import('@/scenes/Patron'), { ssr: false })
 const Debajo = dynamic(() => import('@/scenes/Debajo'), { ssr: false })
+const Gracias = dynamic(() => import('@/scenes/Gracias'), { ssr: false })
 
 export const SCENES: SceneDefinition[] = [
   { id: 'apertura',     index: 0, title: 'Apertura',
@@ -43,4 +44,7 @@ export const SCENES: SceneDefinition[] = [
   { id: 'debajo',       index: 9, title: 'Lo que pasa por debajo',
     notes: 'Cerrar con la analogía del 1 SDK + 1 modelo nuevo.',
     Component: Debajo },
+  { id: 'gracias',      index: 10, title: 'Gracias',
+    notes: 'Dejá que la imagen se anime. No leas la slide; mirá a la gente. Esperá los aplausos. Después abrí Q&A.',
+    Component: Gracias },
 ]
