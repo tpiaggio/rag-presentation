@@ -42,7 +42,7 @@ export function PCAProjection({ dishes }: { dishes: Dish[] }) {
   }, [dishes])
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]">
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md">
       {points.map(({ dish, x, y }, i) => {
         const dim = filter && dish.category !== filter
         const isHover = hover?.id === dish.id
