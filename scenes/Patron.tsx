@@ -45,7 +45,7 @@ export default function Patron() {
       const res = await fetch('/api/search-mm', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ query: mood, collection: 'songs', k: 6 }),
+        body: JSON.stringify({ query: mood, collection: 'songs', k: 1 }),
       })
       const { hits } = (await res.json()) as { hits: SearchHit<Song>[] }
       setHits(hits)
