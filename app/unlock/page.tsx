@@ -102,7 +102,7 @@ export default function UnlockPage() {
           <span className="size-1.5 rounded-full bg-[#EA4335]" />
           <span className="size-1.5 rounded-full bg-[#FBBC04]" />
           <span className="size-1.5 rounded-full bg-[#34A853]" />
-          <span className="ml-2">Build with AI · OPEN 2026</span>
+          <span className="ml-2">Nerdearla 2026</span>
         </div>
 
         <h1 className="mt-10 text-4xl font-semibold tracking-tight">
