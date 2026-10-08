@@ -59,6 +59,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'embeddings.codeTitle': 'El código que está corriendo',
 
     // Como scene
+    'como.sceneLabel': 'Escena 03',
     'como.description': 'Cada plato es un punto. Los parecidos se agrupan.',
     'como.where': 'Donde ya las usás',
     'como.use1': 'recomendaciones de canciones por gusto',
@@ -67,6 +68,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'como.use4': 'productos similares y recomendaciones',
 
     // Busqueda scene
+    'busqueda.sceneLabel': 'Escena 04',
+    'busqueda.keyword': 'Búsqueda por palabra clave',
+    'busqueda.semantic': 'Búsqueda semántica',
     'busqueda.placeholder': 'comida reconfortante en día lluvioso…',
     'busqueda.button': 'Buscar',
     'busqueda.sugerencia1': 'ceviche',
@@ -75,19 +79,25 @@ export const translations: Record<Language, Record<string, string>> = {
     'busqueda.sugerencia4': 'plato típico de la sierra',
 
     // Vivo scene
+    'vivo.sceneLabel': 'Escena 05',
+    'vivo.placeholder': 'probá una búsqueda nueva…',
     'vivo.instruction': 'Arrastrá un PDF de receta sobre el panel. Lo dividimos, lo embebemos y lo guardamos en Firestore acá mismo.',
 
     // Reconoce scene
+    'reconoce.sceneLabel': 'Escena 06',
     'reconoce.button': '↻ otra foto',
     'reconoce.results': 'Resultados',
 
     // Cocinar scene
+    'cocinar.sceneLabel': 'Escena 07',
     'cocinar.instruction': 'Elegí ingredientes (la audiencia también puede sumar pidiendo en voz alta).',
     'cocinar.button': 'Buscar platos',
     'cocinar.clear': 'limpiar',
     'cocinar.query': 'Quiero cocinar algo con: {ingredients}. ¿Qué platos peruanos puedo hacer?',
 
     // Pregunta scene
+    'pregunta.sceneLabel': 'Escena 08',
+    'pregunta.placeholder': '¿Qué me conviene comer si estoy resfriado?',
     'pregunta.sugerencia1': '¿Qué me conviene comer si estoy resfriado?',
     'pregunta.sugerencia2': 'Quiero algo picante con mariscos, ¿qué pido?',
     'pregunta.sugerencia3': 'Un postre cremoso para una celebración',
@@ -101,6 +111,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'pregunta.error': 'No encontré platos para esa pregunta. Probá con otra.',
 
     // Patron scene
+    'patron.sceneLabel': 'Escena 09',
     'patron.mood1': 'paisajes andinos con zampoñas, instrumental y nostálgico',
     'patron.mood2': 'fiesta del pueblo con interacción de guitarra y charango',
     'patron.mood3': 'tristeza por un amor que se fue',
@@ -112,11 +123,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'patron.or': 'o hacé click',
 
     // Debajo scene
+    'debajo.sceneLabel': 'Escena 10',
     'debajo.stack': 'El stack',
     'debajo.costs': 'Costos',
     'debajo.codeTitle': 'El diff completo para sumar multimodal a un stack de Firebase',
 
     // Gracias scene
+    'gracias.sceneLabel': 'Gracias',
     'gracias.message': 'Lo que viene a continuación lo construyen ustedes.',
   },
   en: {
@@ -171,6 +184,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'embeddings.codeTitle': 'The code that\'s running',
 
     // Como scene
+    'como.sceneLabel': 'Scene 03',
     'como.description': 'Each dish is a point. Similar ones cluster together.',
     'como.where': 'Where you already use them',
     'como.use1': 'music recommendations by taste',
@@ -179,6 +193,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'como.use4': 'similar products and recommendations',
 
     // Busqueda scene
+    'busqueda.sceneLabel': 'Scene 04',
+    'busqueda.keyword': 'Keyword search',
+    'busqueda.semantic': 'Semantic search',
     'busqueda.placeholder': 'comfort food on a rainy day…',
     'busqueda.button': 'Search',
     'busqueda.sugerencia1': 'ceviche',
@@ -187,19 +204,25 @@ export const translations: Record<Language, Record<string, string>> = {
     'busqueda.sugerencia4': 'typical mountain dish',
 
     // Vivo scene
+    'vivo.sceneLabel': 'Scene 05',
+    'vivo.placeholder': 'try a new search…',
     'vivo.instruction': 'Drag a recipe PDF onto the panel. We chunk it, embed it, and save it to Firestore right here.',
 
     // Reconoce scene
+    'reconoce.sceneLabel': 'Scene 06',
     'reconoce.button': '↻ another photo',
     'reconoce.results': 'Results',
 
     // Cocinar scene
+    'cocinar.sceneLabel': 'Scene 07',
     'cocinar.instruction': 'Pick ingredients (the audience can also add by calling out).',
     'cocinar.button': 'Search dishes',
     'cocinar.clear': 'clear',
     'cocinar.query': 'I want to cook something with: {ingredients}. What Peruvian dishes can I make?',
 
     // Pregunta scene
+    'pregunta.sceneLabel': 'Scene 08',
+    'pregunta.placeholder': 'What should I eat if I have a cold?',
     'pregunta.sugerencia1': 'What should I eat if I have a cold?',
     'pregunta.sugerencia2': 'I want something spicy with seafood, what do I order?',
     'pregunta.sugerencia3': 'A creamy dessert for a celebration',
@@ -213,6 +236,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'pregunta.error': 'I didn\'t find dishes for that question. Try another.',
 
     // Patron scene
+    'patron.sceneLabel': 'Scene 09',
     'patron.mood1': 'Andean landscapes with pan flutes, instrumental and nostalgic',
     'patron.mood2': 'village party with guitar and charango interaction',
     'patron.mood3': 'heartbreak sadness',
@@ -224,11 +248,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'patron.or': 'or click',
 
     // Debajo scene
+    'debajo.sceneLabel': 'Scene 10',
     'debajo.stack': 'The stack',
     'debajo.costs': 'Costs',
     'debajo.codeTitle': 'The complete diff to add multimodal to a Firebase stack',
 
     // Gracias scene
+    'gracias.sceneLabel': 'Thank You',
     'gracias.message': 'What comes next is built by you.',
   },
   it: {
@@ -283,6 +309,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'embeddings.codeTitle': 'Il codice in esecuzione',
 
     // Como scene
+    'como.sceneLabel': 'Scena 03',
     'como.description': 'Ogni piatto è un punto. Quelli simili si raggruppano insieme.',
     'como.where': 'Dove li usi già',
     'como.use1': 'consigli musicali per gusto',
@@ -291,6 +318,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'como.use4': 'prodotti simili e consigli',
 
     // Busqueda scene
+    'busqueda.sceneLabel': 'Scena 04',
+    'busqueda.keyword': 'Ricerca per parola chiave',
+    'busqueda.semantic': 'Ricerca semantica',
     'busqueda.placeholder': 'cibo confortante in un giorno di pioggia…',
     'busqueda.button': 'Cerca',
     'busqueda.sugerencia1': 'ceviche',
@@ -299,19 +329,25 @@ export const translations: Record<Language, Record<string, string>> = {
     'busqueda.sugerencia4': 'piatto tipico della montagna',
 
     // Vivo scene
+    'vivo.sceneLabel': 'Scena 05',
+    'vivo.placeholder': 'prova una nuova ricerca…',
     'vivo.instruction': 'Trascina un PDF di ricetta sul pannello. Lo dividiamo, lo incorporiamo e lo salviamo su Firestore qui.',
 
     // Reconoce scene
+    'reconoce.sceneLabel': 'Scena 06',
     'reconoce.button': '↻ un\'altra foto',
     'reconoce.results': 'Risultati',
 
     // Cocinar scene
+    'cocinar.sceneLabel': 'Scena 07',
     'cocinar.instruction': 'Scegli ingredienti (il pubblico può anche aggiungerne gridando).',
     'cocinar.button': 'Cerca piatti',
     'cocinar.clear': 'ripulisci',
     'cocinar.query': 'Voglio cucinare qualcosa con: {ingredients}. Quali piatti peruviani posso fare?',
 
     // Pregunta scene
+    'pregunta.sceneLabel': 'Scena 08',
+    'pregunta.placeholder': 'Cosa dovrei mangiare se ho il raffreddore?',
     'pregunta.sugerencia1': 'Cosa dovrei mangiare se ho il raffreddore?',
     'pregunta.sugerencia2': 'Voglio qualcosa di piccante con frutti di mare, cosa ordino?',
     'pregunta.sugerencia3': 'Un dolce cremoso per una celebrazione',
@@ -325,6 +361,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'pregunta.error': 'Non ho trovato piatti per quella domanda. Prova un\'altra.',
 
     // Patron scene
+    'patron.sceneLabel': 'Scena 09',
     'patron.mood1': 'paesaggi andini con zampogne, strumentale e nostalgico',
     'patron.mood2': 'festa del paese con interazione di chitarra e charango',
     'patron.mood3': 'tristezza per un amore perduto',
@@ -336,11 +373,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'patron.or': 'o fai click',
 
     // Debajo scene
+    'debajo.sceneLabel': 'Scena 10',
     'debajo.stack': 'Lo stack',
     'debajo.costs': 'Costi',
     'debajo.codeTitle': 'Il diff completo per aggiungere multimodale a uno stack Firebase',
 
     // Gracias scene
+    'gracias.sceneLabel': 'Grazie',
     'gracias.message': 'Quello che viene dopo lo costruisci tu.',
   },
 }
