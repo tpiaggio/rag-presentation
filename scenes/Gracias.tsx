@@ -1,5 +1,6 @@
 'use client'
 
+import { EVENT_NAME } from '@/lib/event'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useMemo } from 'react'
@@ -83,7 +84,7 @@ export default function Gracias() {
           <span className="size-1.5 rounded-full bg-[#EA4335]" />
           <span className="size-1.5 rounded-full bg-[#FBBC04]" />
           <span className="size-1.5 rounded-full bg-[#34A853]" />
-          <span className="ml-2">Nerdearla 2026</span>
+          <span className="ml-2">{EVENT_NAME}</span>
         </motion.div>
 
         <h1 className="mt-10 whitespace-nowrap text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.95] tracking-tight">

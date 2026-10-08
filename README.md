@@ -102,6 +102,8 @@ pnpm dev
 
 Open `http://localhost:3030`. Use `←` and `→` to advance. `Cmd+.` toggles presenter notes. `Esc` closes overlays. The URL hash tracks the active scene so refreshing keeps you in place.
 
+Before each event, set the event name shown on the opening slide, closing slide, and unlock page in `lib/event.ts`.
+
 ## Languages
 
 The deck runs in Spanish (default), English, and Italian. Pick the language before the talk with a URL parameter, or switch any time with the ES / EN / IT selector in the top-right corner:

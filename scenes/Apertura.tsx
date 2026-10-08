@@ -1,7 +1,8 @@
 'use client'
 
+import { EVENT_NAME } from '@/lib/event'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { useEffect, useMemo } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { MorphingText } from '@/components/MorphingText'
 import { useLanguage } from '@/lib/useLanguage'
 
@@ -105,7 +106,7 @@ export default function Apertura() {
           <span className="size-1.5 rounded-full bg-[#EA4335]" />
           <span className="size-1.5 rounded-full bg-[#FBBC04]" />
           <span className="size-1.5 rounded-full bg-[#34A853]" />
-          <span className="ml-2">Nerdearla 2026</span>
+          <span className="ml-2">{EVENT_NAME}</span>
         </motion.div>
 
         <h1 className="mt-12 whitespace-nowrap text-[clamp(2.5rem,7.5vw,7.5rem)] font-semibold leading-[0.95] tracking-tight">
@@ -132,10 +133,16 @@ export default function Apertura() {
           className="mt-8 text-2xl text-[var(--color-fg)]"
         >
           {t('apertura.subtitle').split(' ').map((word, i, arr) => {
-            if (word === 'Gemini') return <span key={i} className="font-semibold text-[#EA4335]">Gemini</span>
-            if (word === 'Firestore') return <span key={i} className="font-semibold text-[#F57C00]">Firestore</span>
-            if (i < arr.length - 1) return <span key={i}>{word} </span>
-            return <span key={i}>{word}</span>
+            const className =
+              word === 'Gemini' ? 'font-semibold text-[#EA4335]'
+              : word === 'Firestore' ? 'font-semibold text-[#F57C00]'
+              : undefined
+            return (
+              <Fragment key={i}>
+                <span className={className}>{word}</span>
+                {i < arr.length - 1 && ' '}
+              </Fragment>
+            )
           })}
         </motion.p>
 
