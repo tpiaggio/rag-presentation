@@ -35,7 +35,7 @@ const PROGRESS: Record<Phase, number> = {
 }
 
 export default function Pregunta() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [query, setQuery] = useState('')
   const [phase, setPhase] = useState<Phase>('idle')
   const [hits, setHits] = useState<SearchHit<Dish>[]>([])
@@ -78,6 +78,7 @@ export default function Pregunta() {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           query: question,
+          lang: language,
           dishes: hits.map((h) => ({
             name_es: h.doc.name_es,
             name_en: h.doc.name_en,

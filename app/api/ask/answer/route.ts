@@ -15,8 +15,11 @@ const Dish = z.object({
 
 const Body = z.object({
   query: z.string().min(1).max(500),
+  lang: z.enum(['es', 'en', 'it']).default('es'),
   dishes: z.array(Dish).min(1).max(8),
 })
+
+const LANGUAGE_NAMES = { es: 'español', en: 'inglés', it: 'italiano' } as const
 
 function buildContext(dishes: z.infer<typeof Dish>[]): string {
   return dishes
@@ -35,15 +38,16 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return new Response('invalid body', { status: 400 })
   }
-  const { query, dishes } = parsed.data
+  const { query, lang, dishes } = parsed.data
+  const language = LANGUAGE_NAMES[lang]
 
   const result = streamText({
     model: google(GENERATION_MODEL),
     temperature: 0.4,
-    system: `Sos un asistente cálido de cocina peruana. Respondé SIEMPRE en español, en tono cercano y conciso (máximo ~110 palabras).
+    system: `Sos un asistente cálido de cocina peruana. Respondé SIEMPRE en ${language}, sin importar el idioma del contexto o de la pregunta, en tono cercano y conciso (máximo ~110 palabras).
 Reglas estrictas:
 - Usá ÚNICAMENTE los platos del CONTEXTO. Nunca inventes platos que no estén ahí.
-- Mencioná los platos por su nombre exacto (name_es) cuando los recomiendes.
+- Mencioná los platos por su nombre exacto en español (name_es) cuando los recomiendes, sin traducirlo.
 - Si ninguno encaja bien con la pregunta, decilo con honestidad en una sola frase.
 - No inventes datos históricos ni nutricionales que no estén en el contexto.`,
     prompt: `CONTEXTO (platos recuperados por búsqueda vectorial multimodal):
@@ -53,7 +57,7 @@ ${buildContext(dishes)}
 PREGUNTA DEL USUARIO:
 ${query}
 
-Respondé fundamentándote solo en el contexto.`,
+Respondé en ${language}, fundamentándote solo en el contexto.`,
   })
 
   return result.toTextStreamResponse()
