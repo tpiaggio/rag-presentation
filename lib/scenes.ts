@@ -3,7 +3,7 @@ import type { ComponentType } from 'react'
 export type SceneDefinition = {
   id: string
   index: number
-  title: string
+  titleKey: string
   notes: string
   Component: ComponentType
 }

@@ -11,3 +11,8 @@ data/cache/
 *-firebase-adminsdk-*.json
 sa.json
 *-service-account.json
+
+# Local scratch / brainstorm artifacts
+multimodal-ideas.html
+favicon-options.html
+*.svg.meta.json

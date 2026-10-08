@@ -6,10 +6,12 @@ import { getSceneByHash, type SceneDefinition } from '@/lib/scenes'
 import { SceneChrome } from './SceneChrome'
 import { SceneFrame } from './SceneFrame'
 import { PresenterNotes } from './PresenterNotes'
+import { useLanguage } from '@/lib/useLanguage'
 
 export function SceneRunner({ scenes }: { scenes: SceneDefinition[] }) {
   const [active, setActive] = useState(() => scenes[0])
   const [notesOpen, setNotesOpen] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const sync = () => setActive(getSceneByHash(scenes, window.location.hash))
@@ -44,6 +46,9 @@ export function SceneRunner({ scenes }: { scenes: SceneDefinition[] }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [go])
 
+  const title = t(active.titleKey)
+  const notesAriaLabel = t('ui.notes.aria')
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -54,13 +59,14 @@ export function SceneRunner({ scenes }: { scenes: SceneDefinition[] }) {
       <SceneChrome
         index={active.index}
         total={scenes.length}
-        title={active.title}
+        title={title}
         onOpenNotes={() => setNotesOpen(true)}
+        notesAriaLabel={notesAriaLabel}
       />
       <PresenterNotes
         open={notesOpen}
         onClose={() => setNotesOpen(false)}
-        title={active.title}
+        title={title}
         notes={active.notes}
       />
     </>

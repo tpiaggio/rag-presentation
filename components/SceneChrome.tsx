@@ -1,15 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { LanguageSelector } from './LanguageSelector'
 
 type Props = {
   index: number
   total: number
   title: string
   onOpenNotes: () => void
+  notesAriaLabel?: string
 }
 
-export function SceneChrome({ index, total, title, onOpenNotes }: Props) {
+export function SceneChrome({ index, total, title, onOpenNotes, notesAriaLabel = 'Open presenter notes' }: Props) {
   const [visible, setVisible] = useState(true)
   useEffect(() => {
     let t: ReturnType<typeof setTimeout>
@@ -36,10 +38,13 @@ export function SceneChrome({ index, total, title, onOpenNotes }: Props) {
         type="button"
         onClick={onOpenNotes}
         className="pointer-events-auto absolute left-4 top-4 size-2.5 rounded-full bg-[var(--color-accent)]"
-        aria-label="Abrir notas del presentador"
+        aria-label={notesAriaLabel}
       />
-      <div className="absolute right-4 top-4 font-mono text-xs text-[var(--color-muted)]">
-        {String(index).padStart(2, '0')} / {String(total - 1).padStart(2, '0')} · {title}
+      <div className="pointer-events-auto absolute right-4 top-4 flex items-center gap-3">
+        <LanguageSelector />
+        <div className="font-mono text-xs text-[var(--color-muted)]">
+          {String(index).padStart(2, '0')} / {String(total - 1).padStart(2, '0')} · {title}
+        </div>
       </div>
       <div className="absolute bottom-4 right-4 font-mono text-xs text-[var(--color-muted)]">
         ← →
