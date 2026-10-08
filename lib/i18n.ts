@@ -51,8 +51,12 @@ export const translations: Record<Language, Record<string, string>> = {
     'quien-soy.bio': 'Trabajo con vector search y modelos de IA todos los días. Hoy les muestro lo que aprendí, usando algo que todos conocemos.',
 
     // Embeddings scene
+    'embeddings.sceneLabel': 'Escena 02',
     'embeddings.question': '¿Cómo le explico el sabor del ceviche a una máquina? Con números.',
     'embeddings.button': 'Embebir',
+    'embeddings.dim': 'dim',
+    'embeddings.more': '+{count} más',
+    'embeddings.codeTitle': 'El código que está corriendo',
 
     // Como scene
     'como.description': 'Cada plato es un punto. Los parecidos se agrupan.',
@@ -159,8 +163,12 @@ export const translations: Record<Language, Record<string, string>> = {
     'quien-soy.bio': 'I work with vector search and AI models every day. Today I show you what I\'ve learned, using something we all know.',
 
     // Embeddings scene
+    'embeddings.sceneLabel': 'Scene 02',
     'embeddings.question': 'How do I explain the flavor of ceviche to a machine? With numbers.',
     'embeddings.button': 'Embed',
+    'embeddings.dim': 'dim',
+    'embeddings.more': '+{count} more',
+    'embeddings.codeTitle': 'The code that\'s running',
 
     // Como scene
     'como.description': 'Each dish is a point. Similar ones cluster together.',
@@ -267,8 +275,12 @@ export const translations: Record<Language, Record<string, string>> = {
     'quien-soy.bio': 'Lavoro con vector search e modelli di IA ogni giorno. Oggi ti mostro quello che ho imparato, usando qualcosa che tutti conosciamo.',
 
     // Embeddings scene
+    'embeddings.sceneLabel': 'Scena 02',
     'embeddings.question': 'Come spiego il sapore del ceviche a una macchina? Con i numeri.',
     'embeddings.button': 'Incorpora',
+    'embeddings.dim': 'dim',
+    'embeddings.more': '+{count} più',
+    'embeddings.codeTitle': 'Il codice in esecuzione',
 
     // Como scene
     'como.description': 'Ogni piatto è un punto. Quelli simili si raggruppano insieme.',

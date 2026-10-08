@@ -41,7 +41,7 @@ export default function Embeddings() {
     <div className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-10 px-12">
       <div className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 02
+          {t('embeddings.sceneLabel')}
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">{t('scene.embeddings')}</h1>
         <p className="text-[var(--color-muted)]">
@@ -71,10 +71,10 @@ export default function Embeddings() {
       <EmbeddingViz
         values={embedding}
         max={48}
-        label={`${value} · ${embedding.length || 0} dim`}
+        label={`${value} · ${embedding.length || 0} ${t('embeddings.dim')}`}
       />
 
-      <CodePanel code={CODE} defaultOpen />
+      <CodePanel title={t('embeddings.codeTitle')} code={CODE} defaultOpen />
     </div>
   )
 }

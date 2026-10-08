@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/cn'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Props = {
   values: number[]
@@ -18,6 +19,7 @@ export function EmbeddingViz({
   className,
   label,
 }: Props) {
+  const { t } = useLanguage()
   const visible = values.slice(0, max)
   return (
     <div className={cn('font-mono text-xs leading-relaxed', className)}>
@@ -41,7 +43,7 @@ export function EmbeddingViz({
         ))}
         {values.length > max && (
           <span className="text-[var(--color-muted)]">
-            … +{values.length - max} más
+            … {t('embeddings.more').replace('{count}', String(values.length - max))}
           </span>
         )}
       </div>
