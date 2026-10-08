@@ -38,6 +38,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'unlock.footer': '¿No tenés un código pero te interesa explorar la demo?',
     'unlock.footer-cta': 'Escribime por LinkedIn',
     'unlock.footer-end': 'y te lo paso.',
+
+    // Apertura scene
+    'apertura.title': 'Más allá del texto',
+    'apertura.subtitle': 'RAG Multimodal con Gemini y Firestore',
+    'apertura.description': 'Una exploración con comida peruana',
+    'apertura.press': 'presioná',
+    'apertura.start': 'para empezar',
   },
   en: {
     // UI
@@ -70,6 +77,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'unlock.footer': 'Don\'t have a code but want to explore the demo?',
     'unlock.footer-cta': 'Message me on LinkedIn',
     'unlock.footer-end': 'and I\'ll send it to you.',
+
+    // Apertura scene
+    'apertura.title': 'Beyond Text',
+    'apertura.subtitle': 'Multimodal RAG with Gemini and Firestore',
+    'apertura.description': 'An exploration with Peruvian food',
+    'apertura.press': 'press',
+    'apertura.start': 'to begin',
   },
   it: {
     // UI
@@ -102,6 +116,13 @@ export const translations: Record<Language, Record<string, string>> = {
     'unlock.footer': 'Non hai un codice ma sei interessato a provare la demo?',
     'unlock.footer-cta': 'Scrivimi su LinkedIn',
     'unlock.footer-end': 'e te lo invio.',
+
+    // Apertura scene
+    'apertura.title': 'Oltre il Testo',
+    'apertura.subtitle': 'RAG Multimodale con Gemini e Firestore',
+    'apertura.description': 'Un\'esplorazione con cibo peruviano',
+    'apertura.press': 'premi',
+    'apertura.start': 'per iniziare',
   },
 }
 

@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useEffect, useMemo } from 'react'
 import { MorphingText } from '@/components/MorphingText'
+import { useLanguage } from '@/lib/useLanguage'
 
 function useBackgroundNumbers() {
   return useMemo(() => {
@@ -22,6 +23,7 @@ function useBackgroundNumbers() {
 }
 
 export default function Apertura() {
+  const { t } = useLanguage()
   const numbers = useBackgroundNumbers()
 
   const mouseX = useMotionValue(0)
@@ -108,7 +110,7 @@ export default function Apertura() {
 
         <h1 className="mt-12 whitespace-nowrap text-[clamp(2.5rem,7.5vw,7.5rem)] font-semibold leading-[0.95] tracking-tight">
           <MorphingText
-            text="Más allá del texto"
+            text={t('apertura.title')}
             cyclesPerChar={16}
             intervalMs={40}
             staggerMs={60}
@@ -129,10 +131,12 @@ export default function Apertura() {
           transition={{ duration: 0.7, delay: 2.6 }}
           className="mt-8 text-2xl text-[var(--color-fg)]"
         >
-          RAG Multimodal con{' '}
-          <span className="font-semibold text-[#EA4335]">Gemini</span>
-          {' '}y{' '}
-          <span className="font-semibold text-[#F57C00]">Firestore</span>
+          {t('apertura.subtitle').split(' ').map((word, i, arr) => {
+            if (word === 'Gemini') return <span key={i} className="font-semibold text-[#EA4335]">Gemini</span>
+            if (word === 'Firestore') return <span key={i} className="font-semibold text-[#F57C00]">Firestore</span>
+            if (i < arr.length - 1) return <span key={i}>{word} </span>
+            return <span key={i}>{word}</span>
+          })}
         </motion.p>
 
         <motion.p
@@ -141,7 +145,7 @@ export default function Apertura() {
           transition={{ duration: 0.7, delay: 2.85 }}
           className="mt-4 max-w-2xl text-base text-[var(--color-muted)]"
         >
-          Una exploración con comida peruana
+          {t('apertura.description')}
         </motion.p>
 
         <motion.div
@@ -150,7 +154,7 @@ export default function Apertura() {
           transition={{ duration: 0.7, delay: 3.4 }}
           className="mt-20 flex items-center gap-3 font-mono text-xs text-[var(--color-muted)]"
         >
-          <span>presioná</span>
+          <span>{t('apertura.press')}</span>
           <motion.kbd
             animate={{ x: [0, 5, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
@@ -158,7 +162,7 @@ export default function Apertura() {
           >
             →
           </motion.kbd>
-          <span>para empezar</span>
+          <span>{t('apertura.start')}</span>
         </motion.div>
       </div>
     </div>
