@@ -88,7 +88,7 @@ export default function Gracias() {
 
         <h1 className="mt-10 whitespace-nowrap text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.95] tracking-tight">
           <MorphingText
-            text="Gracias"
+            text={t("gracias.sceneLabel")}
             cyclesPerChar={18}
             intervalMs={40}
             staggerMs={70}

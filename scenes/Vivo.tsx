@@ -75,7 +75,7 @@ export default function Vivo() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-16">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 05
+          {t('vivo.sceneLabel')}
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">{t('scene.vivo')}</h1>
         <p className="text-[var(--color-muted)]">
@@ -102,7 +102,7 @@ export default function Vivo() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="probá una búsqueda nueva…"
+                placeholder={t('vivo.placeholder')}
                 className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
               />
               <button

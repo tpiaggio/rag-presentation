@@ -119,7 +119,7 @@ export default function Pregunta() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-14">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena {SCENE_NUMBER}
+          {t('pregunta.sceneLabel')}
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">{t('scene.pregunta')}</h1>
         <p className="text-[var(--color-muted)]">
@@ -141,7 +141,7 @@ export default function Pregunta() {
           className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-lg outline-none focus:border-[var(--color-accent)]"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="¿Qué me conviene comer si estoy resfriado?"
+          placeholder={t('pregunta.placeholder')}
         />
         <button
           type="submit"

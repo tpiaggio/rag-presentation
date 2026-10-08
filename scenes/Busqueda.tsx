@@ -60,7 +60,7 @@ export default function Busqueda() {
     <div className="mx-auto flex min-h-screen max-w-[1400px] flex-col gap-6 px-12 py-16">
       <header className="space-y-2">
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-          Escena 04
+          {t('busqueda.sceneLabel')}
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">
           {t('scene.busqueda')}
@@ -105,8 +105,8 @@ export default function Busqueda() {
       </div>
 
       <div className="grid flex-1 grid-cols-2 gap-8 pt-4">
-        <Column title="Búsqueda por palabra clave" hits={keywordHits} loading={loading} />
-        <Column title="Búsqueda semántica" hits={semanticHits} loading={loading} highlight />
+        <Column title={t('busqueda.keyword')} hits={keywordHits} loading={loading} />
+        <Column title={t('busqueda.semantic')} hits={semanticHits} loading={loading} highlight />
       </div>
 
       <CodePanel code={CODE} />
