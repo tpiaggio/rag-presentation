@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { EmbeddingViz } from '@/components/EmbeddingViz'
 import { LoadingDot } from '@/components/LoadingDot'
 import { CodePanel } from '@/components/CodePanel'
+import { useLanguage } from '@/lib/useLanguage'
 
 const CODE = `import { google } from '@/lib/gemini'
 import { embed } from 'ai'
@@ -16,6 +17,7 @@ const { embedding } = await embed({
 // embedding.length === 768`
 
 export default function Embeddings() {
+  const { t } = useLanguage()
   const [value, setValue] = useState('ceviche')
   const [embedding, setEmbedding] = useState<number[]>([])
   const [loading, setLoading] = useState(false)
@@ -41,9 +43,9 @@ export default function Embeddings() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena 02
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">¿Qué son los embeddings?</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.embeddings')}</h1>
         <p className="text-[var(--color-muted)]">
-          ¿Cómo le explico el sabor del ceviche a una máquina? Con números.
+          {t('embeddings.question')}
         </p>
       </div>
 
@@ -61,7 +63,7 @@ export default function Embeddings() {
           onClick={go}
           className="rounded-md bg-[var(--color-fg)] px-5 py-3 text-sm text-white"
         >
-          Embebir
+          {t('embeddings.button')}
         </button>
         {loading && <LoadingDot size={20} />}
       </div>

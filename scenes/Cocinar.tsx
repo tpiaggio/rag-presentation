@@ -7,12 +7,14 @@ import { LoadingDot } from '@/components/LoadingDot'
 import { CodePanel } from '@/components/CodePanel'
 import { cn } from '@/lib/cn'
 import type { Dish, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 const CODE = `const query = \`Quiero cocinar algo con \${selected.join(', ')}.\`
 const vector = await embedMultimodal(query)
 const hits = await findNearestDishes(vector, 'embedding_mm', 6)`
 
 export default function Cocinar() {
+  const { t } = useLanguage()
   const [selected, setSelected] = useState<string[]>([])
   const [hits, setHits] = useState<SearchHit<Dish>[]>([])
   const [loading, setLoading] = useState(false)
@@ -25,7 +27,7 @@ export default function Cocinar() {
     if (selected.length === 0) return
     setLoading(true)
     try {
-      const query = `Quiero cocinar algo con: ${selected.join(', ')}. ¿Qué platos peruanos puedo hacer?`
+      const query = t('cocinar.query').replace('{ingredients}', selected.join(', '))
       const res = await fetch('/api/search-mm', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -44,9 +46,9 @@ export default function Cocinar() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena 07
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">¿Qué puedo cocinar?</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.cocinar')}</h1>
         <p className="text-[var(--color-muted)]">
-          Elegí ingredientes (la audiencia también puede sumar pidiendo en voz alta).
+          {t('cocinar.instruction')}
         </p>
       </header>
 
@@ -76,7 +78,7 @@ export default function Cocinar() {
           disabled={selected.length === 0 || loading}
           className="rounded-md bg-[var(--color-fg)] px-5 py-2 text-sm text-white disabled:opacity-40"
         >
-          Buscar platos ({selected.length})
+          {t('cocinar.button')} ({selected.length})
         </button>
         {loading && <LoadingDot size={16} />}
         {selected.length > 0 && (
@@ -85,7 +87,7 @@ export default function Cocinar() {
             onClick={() => setSelected([])}
             className="text-xs text-[var(--color-muted)] underline"
           >
-            limpiar
+            {t('cocinar.clear')}
           </button>
         )}
       </div>

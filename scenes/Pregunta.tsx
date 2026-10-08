@@ -7,6 +7,7 @@ import { LoadingDot } from '@/components/LoadingDot'
 import { CodePanel } from '@/components/CodePanel'
 import { cn } from '@/lib/cn'
 import type { Dish, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 const SCENE_NUMBER = '08'
 
@@ -22,13 +23,6 @@ const result = streamText({
 })
 return result.toTextStreamResponse()`
 
-const SUGERIDAS = [
-  '¿Qué me conviene comer si estoy resfriado?',
-  'Quiero algo picante con mariscos, ¿qué pido?',
-  'Un postre cremoso para una celebración',
-  '¿Qué plato abriga en un día frío de sierra?',
-]
-
 // idle → retrieving → retrieved → answering → done
 type Phase = 'idle' | 'retrieving' | 'retrieved' | 'answering' | 'done'
 
@@ -40,15 +34,8 @@ const PROGRESS: Record<Phase, number> = {
   done: 4,
 }
 
-const STEPS = [
-  { label: 'Pregunta', at: 1 },
-  { label: 'Vector 1536-d', at: 1 },
-  { label: 'Contexto · k=4', at: 2 },
-  { label: 'Gemini 3.5 Flash', at: 3 },
-  { label: 'Respuesta', at: 3 },
-]
-
 export default function Pregunta() {
+  const { t } = useLanguage()
   const [query, setQuery] = useState('')
   const [phase, setPhase] = useState<Phase>('idle')
   const [hits, setHits] = useState<SearchHit<Dish>[]>([])
@@ -77,7 +64,7 @@ export default function Pregunta() {
       if (!res.ok) throw new Error(`retrieval ${res.status}`)
       const { hits } = (await res.json()) as { hits: SearchHit<Dish>[] }
       if (hits.length === 0) {
-        setError('No encontré platos para esa pregunta. Probá con otra.')
+        setError(t('pregunta.error'))
         setPhase('idle')
         return
       }
@@ -134,10 +121,10 @@ export default function Pregunta() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena {SCENE_NUMBER}
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">Pregúntale a la comida</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.pregunta')}</h1>
         <p className="text-[var(--color-muted)]">
           Recuperación <span className="text-[var(--color-fg)]">+</span> generación ={' '}
-          <span className="font-semibold text-[var(--color-accent)]">RAG</span>. La respuesta sale
+          <span className="font-semibold text-[var(--color-accent)]">RAG</span>. {t('pregunta.process')}
           únicamente de los platos recuperados.
         </p>
       </header>
@@ -175,21 +162,24 @@ export default function Pregunta() {
       </form>
 
       <div className="flex flex-wrap gap-2 text-xs">
-        {SUGERIDAS.map((s) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => ask(s)}
-            disabled={busy}
-            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)] disabled:opacity-40"
-          >
-            {s}
-          </button>
-        ))}
+        {['pregunta.sugerencia1', 'pregunta.sugerencia2', 'pregunta.sugerencia3', 'pregunta.sugerencia4'].map((key) => {
+          const s = t(key)
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => ask(s)}
+              disabled={busy}
+              className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)] disabled:opacity-40"
+            >
+              {s}
+            </button>
+          )
+        })}
       </div>
 
       {/* Pipeline RAG */}
-      <Pipeline progress={PROGRESS[phase]} />
+      <Pipeline progress={PROGRESS[phase]} t={t} />
 
       {error && <div className="text-sm text-[var(--color-accent)]">{error}</div>}
 
@@ -276,7 +266,14 @@ function Cursor() {
   )
 }
 
-function Pipeline({ progress }: { progress: number }) {
+function Pipeline({ progress, t }: { progress: number; t: (key: string) => string }) {
+  const STEPS = [
+    { label: t('pregunta.step1'), at: 1 },
+    { label: t('pregunta.step2'), at: 1 },
+    { label: t('pregunta.step3'), at: 2 },
+    { label: t('pregunta.step4'), at: 3 },
+    { label: t('pregunta.step5'), at: 3 },
+  ]
   return (
     <div className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-code-bg)] px-4 py-3">
       {STEPS.map((step, i) => {

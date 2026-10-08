@@ -7,6 +7,7 @@ import { SimilarityBar } from '@/components/SimilarityBar'
 import { CodePanel } from '@/components/CodePanel'
 import { cn } from '@/lib/cn'
 import type { Song, SongGenre, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 const CODE = `const vector = await embedMultimodal('', [
   { inlineData: { mimeType: 'audio/webm', data: recordedBase64 } },
@@ -35,6 +36,7 @@ async function fileToBase64(file: File): Promise<string> {
 }
 
 export default function Patron() {
+  const { t } = useLanguage()
   const [hits, setHits] = useState<SearchHit<Song>[]>([])
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState<Mode>('mood')
@@ -80,7 +82,7 @@ export default function Patron() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena 09
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">El mismo patrón, otro mundo</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.patron')}</h1>
         <p className="text-[var(--color-muted)]">
           Música peruana. La misma forma de embebido aplica.
         </p>
@@ -112,16 +114,19 @@ export default function Patron() {
 
       {mode === 'mood' && (
         <div className="flex flex-wrap gap-2 text-xs">
-          {MOODS.map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => searchByMood(m)}
-              className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)]"
-            >
-              {m}
-            </button>
-          ))}
+          {['patron.mood1', 'patron.mood2', 'patron.mood3'].map((key) => {
+            const m = t(key)
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => searchByMood(m)}
+                className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)]"
+              >
+                {m}
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -132,7 +137,7 @@ export default function Patron() {
         </div>
       )}
 
-      {mode === 'upload' && <UploadForm />}
+      {mode === 'upload' && <UploadForm t={t} />}
 
       <div className="grid grid-cols-3 gap-3 pt-4">
         {hits.map((h) => (
@@ -163,7 +168,7 @@ export default function Patron() {
 
 type UploadStatus = 'idle' | 'analyzing' | 'analyzed' | 'uploading' | 'done' | 'error'
 
-function UploadForm() {
+function UploadForm({ t }: { t: (key: string) => string }) {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
   const [genre, setGenre] = useState<SongGenre | ''>('')
@@ -256,7 +261,7 @@ function UploadForm() {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Título *"
+            placeholder={t('patron.placeholderTitle')}
             className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
           />
           <select
@@ -280,20 +285,20 @@ function UploadForm() {
         <input
           value={region}
           onChange={(e) => setRegion(e.target.value)}
-          placeholder="Región (opcional) — Cuzco, Lima, Arequipa…"
+          placeholder={t('patron.placeholderRegion')}
           className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Descripción corta (opcional) — instrumentos, sentimiento, contexto"
+          placeholder={t('patron.placeholderDescription')}
           rows={3}
           className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm leading-relaxed"
         />
         <input
           value={moodInput}
           onChange={(e) => setMoodInput(e.target.value)}
-          placeholder="Mood tags separados por coma (opcional) — triste, festivo, andino"
+          placeholder={t('patron.placeholderMood')}
           className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
         />
 

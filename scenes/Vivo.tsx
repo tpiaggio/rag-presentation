@@ -5,6 +5,7 @@ import { IndexingAnimation } from '@/components/IndexingAnimation'
 import { DishCard } from '@/components/DishCard'
 import { CodePanel } from '@/components/CodePanel'
 import type { Dish, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Stage = 'idle' | 'reading' | 'chunking' | 'embedding' | 'storing' | 'done' | 'error'
 
@@ -27,6 +28,7 @@ await adminDb.collection('presentation_dishes').doc(id).set({
 })`
 
 export default function Vivo() {
+  const { t } = useLanguage()
   const [stage, setStage] = useState<Stage>('idle')
   const [preview, setPreview] = useState<number[]>()
   const [errorMessage, setErrorMessage] = useState<string>()
@@ -75,9 +77,9 @@ export default function Vivo() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena 05
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">Embedding en vivo</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.vivo')}</h1>
         <p className="text-[var(--color-muted)]">
-          Arrastrá un PDF de receta sobre el panel. Lo dividimos, lo embebemos y lo guardamos en Firestore acá mismo.
+          {t('vivo.instruction')}
         </p>
       </header>
 

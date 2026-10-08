@@ -5,6 +5,7 @@ import { DishCard } from '@/components/DishCard'
 import { LoadingDot } from '@/components/LoadingDot'
 import { CodePanel } from '@/components/CodePanel'
 import type { Dish, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Mode = 'keyword' | 'semantic'
 
@@ -37,6 +38,7 @@ const SUGERIDAS = [
 ]
 
 export default function Busqueda() {
+  const { t } = useLanguage()
   const [query, setQuery] = useState('')
   const [keywordHits, setKeywordHits] = useState<SearchHit<Dish>[]>([])
   const [semanticHits, setSemanticHits] = useState<SearchHit<Dish>[]>([])
@@ -61,7 +63,7 @@ export default function Busqueda() {
           Escena 04
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">
-          El problema con la búsqueda tradicional
+          {t('scene.busqueda')}
         </h1>
       </header>
 
@@ -76,27 +78,30 @@ export default function Busqueda() {
           className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-lg outline-none focus:border-[var(--color-accent)]"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="comida reconfortante en día lluvioso…"
+          placeholder={t('busqueda.placeholder')}
         />
         <button
           type="submit"
           className="rounded-md bg-[var(--color-fg)] px-5 text-sm text-white"
         >
-          Buscar
+          {t('busqueda.button')}
         </button>
       </form>
 
       <div className="flex gap-2 text-xs">
-        {SUGERIDAS.map((s) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => go(s)}
-            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)]"
-          >
-            {s}
-          </button>
-        ))}
+        {['busqueda.sugerencia1', 'busqueda.sugerencia2', 'busqueda.sugerencia3', 'busqueda.sugerencia4'].map((key) => {
+          const s = t(key)
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => go(s)}
+              className="rounded-full border border-[var(--color-border)] px-3 py-1 text-[var(--color-muted)] hover:text-[var(--color-fg)]"
+            >
+              {s}
+            </button>
+          )
+        })}
       </div>
 
       <div className="grid flex-1 grid-cols-2 gap-8 pt-4">

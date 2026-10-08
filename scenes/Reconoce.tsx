@@ -6,6 +6,7 @@ import { DishCard } from '@/components/DishCard'
 import { LoadingDot } from '@/components/LoadingDot'
 import { CodePanel } from '@/components/CodePanel'
 import type { Dish, SearchHit } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 const CODE = `const vector = await embedMultimodal('', [
   { inlineData: { mimeType: 'image/jpeg', data: photoBase64 } },
@@ -13,6 +14,7 @@ const CODE = `const vector = await embedMultimodal('', [
 const hits = await findNearestDishes(vector, 'embedding_mm', 6)`
 
 export default function Reconoce() {
+  const { t } = useLanguage()
   const [photo, setPhoto] = useState<string>()
   const [hits, setHits] = useState<SearchHit<Dish>[]>([])
   const [loading, setLoading] = useState(false)
@@ -44,7 +46,7 @@ export default function Reconoce() {
         <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
           Escena 06
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight">Reconoce la comida que ves</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{t('scene.reconoce')}</h1>
       </header>
 
       <div className="grid grid-cols-2 gap-8">
@@ -65,14 +67,14 @@ export default function Reconoce() {
               }}
               className="self-start text-sm text-[var(--color-muted)] underline"
             >
-              ↻ otra foto
+              {t('reconoce.button')}
             </button>
           </div>
         )}
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest text-[var(--color-muted)]">
-            Resultados {loading && <LoadingDot size={16} />}
+            {t('reconoce.results')} {loading && <LoadingDot size={16} />}
           </div>
           <div className="grid grid-cols-3 gap-3">
             {hits.map((h) => (

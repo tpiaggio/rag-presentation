@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useLanguage } from '@/lib/useLanguage'
 
 export default function QuienSoy() {
+  const { t } = useLanguage()
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-bg)]">
       <motion.div
@@ -40,7 +42,7 @@ export default function QuienSoy() {
             }}
             className="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]"
           >
-            Quién soy
+            {t('quien-soy.label')}
           </motion.div>
 
           <motion.h1
@@ -68,8 +70,7 @@ export default function QuienSoy() {
               <span className="text-[var(--color-muted)]">· Firebase</span>
             </div>
             <p className="max-w-xl pt-3">
-              Trabajo con vector search y modelos de IA todos los días. Hoy les muestro
-              lo que aprendí, usando algo que todos conocemos.
+              {t('quien-soy.bio')}
             </p>
           </motion.div>
 

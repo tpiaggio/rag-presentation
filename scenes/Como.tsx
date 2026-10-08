@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { PCAProjection } from '@/components/PCAProjection'
 import { LoadingDot } from '@/components/LoadingDot'
 import type { Dish } from '@/lib/types'
+import { useLanguage } from '@/lib/useLanguage'
 
 const USES = [
   { who: 'Spotify', what: 'recomendaciones de canciones por gusto' },
@@ -13,6 +14,7 @@ const USES = [
 ]
 
 export default function Como() {
+  const { t } = useLanguage()
   const [dishes, setDishes] = useState<Dish[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -30,10 +32,10 @@ export default function Como() {
           Escena 03
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">
-          ¿Cómo funcionan y para qué sirven?
+          {t('scene.como')}
         </h1>
         <p className="text-[var(--color-muted)]">
-          Cada plato es un punto. Los parecidos se agrupan.
+          {t('como.description')}
         </p>
       </header>
 
@@ -49,12 +51,17 @@ export default function Como() {
         </div>
         <div className="space-y-4">
           <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-            Donde ya las usás
+            {t('como.where')}
           </div>
-          {USES.map((u) => (
+          {[
+            { who: 'Spotify', key: 'como.use1' },
+            { who: 'Google', key: 'como.use2' },
+            { who: 'ChatGPT', key: 'como.use3' },
+            { who: 'E-commerce', key: 'como.use4' },
+          ].map((u) => (
             <div key={u.who} className="space-y-1">
               <div className="font-semibold">{u.who}</div>
-              <div className="text-sm text-[var(--color-muted)]">{u.what}</div>
+              <div className="text-sm text-[var(--color-muted)]">{t(u.key)}</div>
             </div>
           ))}
         </div>

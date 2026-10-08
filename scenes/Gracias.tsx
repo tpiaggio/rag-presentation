@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useMemo } from 'react'
 import { MorphingText } from '@/components/MorphingText'
+import { useLanguage } from '@/lib/useLanguage'
 
 function useDrift() {
   return useMemo(() => {
@@ -23,6 +24,7 @@ function useDrift() {
 }
 
 export default function Gracias() {
+  const { t } = useLanguage()
   const numbers = useDrift()
 
   return (
@@ -109,7 +111,7 @@ export default function Gracias() {
         >
           El embedding ya aprendió el sabor del ceviche.
           <br />
-          <span className="text-[var(--color-muted)]">Lo que viene a continuación lo construyen ustedes.</span>
+          <span className="text-[var(--color-muted)]">{t('gracias.message')}</span>
         </motion.p>
 
         <motion.div
