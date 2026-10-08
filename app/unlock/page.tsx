@@ -4,11 +4,13 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LanguageSelector } from '@/components/LanguageSelector'
+import { useLanguage } from '@/lib/useLanguage'
 
 type DriftNumber = { x: number; y: number; v: number; delay: number; duration: number; size: number }
 
 export default function UnlockPage() {
   const router = useRouter()
+  const { t } = useLanguage()
   const [numbers, setNumbers] = useState<DriftNumber[]>([])
   const [passcode, setPasscode] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle')
@@ -41,7 +43,7 @@ export default function UnlockPage() {
       })
       if (!res.ok) {
         setStatus('error')
-        setErrorMessage(res.status === 401 ? 'Código no válido' : `Error ${res.status}`)
+        setErrorMessage(res.status === 401 ? t('unlock.error') : `Error ${res.status}`)
         return
       }
       router.replace('/')
@@ -111,10 +113,10 @@ export default function UnlockPage() {
         </div>
 
         <h1 className="mt-10 text-4xl font-semibold tracking-tight">
-          Más allá del texto
+          {t('unlock.title')}
         </h1>
         <p className="mt-2 text-sm text-[var(--color-muted)]">
-          RAG Multimodal con Gemini y Firestore
+          {t('unlock.subtitle')}
         </p>
 
         <form
@@ -129,7 +131,7 @@ export default function UnlockPage() {
             autoFocus
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
-            placeholder="Código de acceso"
+            placeholder={t('unlock.placeholder')}
             className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-center text-base outline-none focus:border-[var(--color-accent)]"
             disabled={status === 'submitting'}
           />
@@ -138,7 +140,7 @@ export default function UnlockPage() {
             disabled={!passcode.trim() || status === 'submitting'}
             className="rounded-md bg-[var(--color-fg)] px-5 py-3 text-sm font-medium text-white disabled:opacity-40"
           >
-            {status === 'submitting' ? 'Verificando…' : 'Entrar'}
+            {status === 'submitting' ? t('unlock.submitting') : t('unlock.button')}
           </button>
           {status === 'error' && errorMessage && (
             <div className="text-xs text-[var(--color-accent)]">{errorMessage}</div>
@@ -146,16 +148,16 @@ export default function UnlockPage() {
         </form>
 
         <div className="mt-16 max-w-sm text-xs leading-relaxed text-[var(--color-muted)]">
-          ¿No tenés un código pero te interesa explorar la demo?{' '}
+          {t('unlock.footer')}{' '}
           <a
             href="https://linkedin.com/in/tomas-piaggio"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--color-accent)] hover:underline"
           >
-            Escribime por LinkedIn
+            {t('unlock.footer-cta')}
           </a>{' '}
-          y te lo paso.
+          {t('unlock.footer-end')}
         </div>
       </motion.div>
     </div>
