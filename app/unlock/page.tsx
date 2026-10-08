@@ -61,7 +61,7 @@ export default function UnlockPage() {
         }}
       />
 
-      <div aria-hidden className="pointer-events-none absolute inset-0 select-none">
+      <div aria-hidden className="pointer-events-none absolute inset-0 select-none" suppressHydrationWarning>
         {numbers.map((n, i) => (
           <motion.span
             key={i}
@@ -75,6 +75,7 @@ export default function UnlockPage() {
             }}
             className="absolute font-mono tabular-nums text-[var(--color-fg)]"
             style={{ left: `${n.x}%`, top: `${n.y}%`, fontSize: `${n.size}px` }}
+            suppressHydrationWarning
           >
             {n.v >= 0 ? ' ' : ''}
             {n.v.toFixed(3)}
