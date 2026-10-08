@@ -3,6 +3,21 @@
 import { CodePanel } from '@/components/CodePanel'
 import { useLanguage } from '@/lib/useLanguage'
 
+const STACK = [
+  ['Stack', 'Next.js 16, React 19, TypeScript estricto, Tailwind v4, Framer Motion'],
+  ['SDK de AI', 'Vercel AI SDK (@ai-sdk/google 3.0.x sobre ai 6.x)'],
+  ['Modelos', 'gemini-embedding-001 (texto, 768d) · gemini-embedding-2 (multimodal, 1536d)'],
+  ['Vector DB', 'Firestore vectorField + findNearest, 100% en Firebase'],
+  ['Lo nuevo', 'Sólo el modelo nuevo y un providerOption nuevo. No hay SDK nuevo.'],
+]
+
+const COSTS = [
+  ['gemini-embedding-001', '$0.00002 / 1k tokens'],
+  ['gemini-embedding-2', '$0.0001 / request (orden de magnitud)'],
+  ['Firestore findNearest', 'Reads normales × k'],
+  ['Total estimado por consulta', '~$0.0001 a $0.0002'],
+]
+
 const CODE = `const model = google.embedding('gemini-embedding-001')
 // para multimodal:
 const model = google.embedding('gemini-embedding-2')
