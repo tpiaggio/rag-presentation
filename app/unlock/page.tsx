@@ -1,12 +1,21 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { LanguageSelector } from '@/components/LanguageSelector'
 
-function useDrift() {
-  return useMemo(() => {
-    const out: { x: number; y: number; v: number; delay: number; duration: number; size: number }[] = []
+type DriftNumber = { x: number; y: number; v: number; delay: number; duration: number; size: number }
+
+export default function UnlockPage() {
+  const router = useRouter()
+  const [numbers, setNumbers] = useState<DriftNumber[]>([])
+  const [passcode, setPasscode] = useState('')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>()
+
+  useEffect(() => {
+    const out: DriftNumber[] = []
     for (let i = 0; i < 80; i++) {
       out.push({
         x: Math.random() * 100,
@@ -17,16 +26,8 @@ function useDrift() {
         size: 9 + Math.random() * 3,
       })
     }
-    return out
+    setNumbers(out)
   }, [])
-}
-
-export default function UnlockPage() {
-  const router = useRouter()
-  const numbers = useDrift()
-  const [passcode, setPasscode] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState<string>()
 
   async function submit() {
     if (!passcode.trim()) return
@@ -52,6 +53,10 @@ export default function UnlockPage() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-bg)]">
+      <div className="pointer-events-auto fixed right-4 top-4 z-50">
+        <LanguageSelector />
+      </div>
+
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -61,7 +66,7 @@ export default function UnlockPage() {
         }}
       />
 
-      <div aria-hidden className="pointer-events-none absolute inset-0 select-none" suppressHydrationWarning>
+      <div aria-hidden className="pointer-events-none absolute inset-0 select-none">
         {numbers.map((n, i) => (
           <motion.span
             key={i}
@@ -75,7 +80,6 @@ export default function UnlockPage() {
             }}
             className="absolute font-mono tabular-nums text-[var(--color-fg)]"
             style={{ left: `${n.x}%`, top: `${n.y}%`, fontSize: `${n.size}px` }}
-            suppressHydrationWarning
           >
             {n.v >= 0 ? ' ' : ''}
             {n.v.toFixed(3)}
