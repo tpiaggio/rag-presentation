@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   const audioBytes = Buffer.from(audioBase64, 'base64')
 
   const { object } = await generateObject({
-    model: google('gemini-2.5-flash'),
+    model: google('gemini-3.8-flash'),
     schema,
     messages: [
       {

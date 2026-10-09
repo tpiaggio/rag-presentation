@@ -9,12 +9,16 @@ import { cn } from '@/lib/cn'
 import type { Dish, SearchHit } from '@/lib/types'
 import { useLanguage } from '@/lib/useLanguage'
 
-const CODE = `const query = \`Quiero cocinar algo con \${selected.join(', ')}.\`
+const code = (t: (key: string) => string) => `const query = \`${t('cocinar.codeQuery')} \${selected.join(', ')}.\`
 const vector = await embedMultimodal(query)
 const hits = await findNearestDishes(vector, 'embedding_mm', 6)`
 
 export default function Cocinar() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const label = (name: string) => {
+    const ing = ingredients.find((i) => i.name === name)
+    return (language === 'en' ? ing?.name_en : language === 'it' ? ing?.name_it : undefined) ?? name
+  }
   const [selected, setSelected] = useState<string[]>([])
   const [hits, setHits] = useState<SearchHit<Dish>[]>([])
   const [loading, setLoading] = useState(false)
@@ -27,7 +31,7 @@ export default function Cocinar() {
     if (selected.length === 0) return
     setLoading(true)
     try {
-      const query = t('cocinar.query').replace('{ingredients}', selected.join(', '))
+      const query = t('cocinar.query').replace('{ingredients}', selected.map(label).join(', '))
       const res = await fetch('/api/search-mm', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -66,7 +70,7 @@ export default function Cocinar() {
             )}
           >
             <span className="text-2xl">{ing.emoji}</span>
-            <span>{ing.name}</span>
+            <span>{label(ing.name)}</span>
           </button>
         ))}
       </div>
@@ -98,7 +102,7 @@ export default function Cocinar() {
         ))}
       </div>
 
-      <CodePanel code={CODE} />
+      <CodePanel code={code(t)} />
     </div>
   )
 }

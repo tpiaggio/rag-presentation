@@ -6,13 +6,6 @@ import { LoadingDot } from '@/components/LoadingDot'
 import type { Dish } from '@/lib/types'
 import { useLanguage } from '@/lib/useLanguage'
 
-const USES = [
-  { who: 'Spotify', what: 'recomendaciones de canciones por gusto' },
-  { who: 'Google', what: 'búsqueda semántica' },
-  { who: 'ChatGPT', what: 'memoria de conversaciones largas' },
-  { who: 'E-commerce', what: 'productos similares y recomendaciones' },
-]
-
 export default function Como() {
   const { t } = useLanguage()
   const [dishes, setDishes] = useState<Dish[]>([])

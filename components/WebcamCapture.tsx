@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/cn'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Props = {
   onCapture: (dataUrl: string, mimeType: string) => void
@@ -9,6 +10,7 @@ type Props = {
 }
 
 export function WebcamCapture({ onCapture, className }: Props) {
+  const { t } = useLanguage()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [ready, setReady] = useState(false)
   const [error, setError] = useState<string>()
@@ -55,7 +57,7 @@ export function WebcamCapture({ onCapture, className }: Props) {
   }
 
   if (error) {
-    return <div className="text-sm text-[var(--color-accent)]">Cámara: {error}</div>
+    return <div className="text-sm text-[var(--color-accent)]">{t('ui.camera')}: {error}</div>
   }
 
   return (
@@ -72,7 +74,7 @@ export function WebcamCapture({ onCapture, className }: Props) {
         disabled={!ready}
         className="self-start rounded-md bg-[var(--color-fg)] px-4 py-2 text-sm text-white disabled:opacity-50"
       >
-        Capturar
+        {t('ui.capture')}
       </button>
     </div>
   )

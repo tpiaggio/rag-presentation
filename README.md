@@ -34,7 +34,7 @@ The anchor domain is Peruvian gastronomy because it is vivid and works across ev
 | 5 | Embedding en vivo | Drag a recipe PDF onto the stage, watch chunking, embedding, and Firestore write animate in real time |
 | 6 | Reconoce la comida que ves | Webcam capture, sent to `gemini-embedding-2` as `inlineData`, top dish matches returned with full recipes |
 | 7 | ¿Qué puedo cocinar? | Pick ingredients from a grid, query as natural-language Spanish, get ranked dishes |
-| 8 | Pregúntale a la comida | The full RAG loop: the question is embedded with `gemini-embedding-2`, the top 4 dishes are retrieved as context, then `gemini-3.5-flash` streams an answer grounded only in those dishes |
+| 8 | Pregúntale a la comida | The full RAG loop: the question is embedded with `gemini-embedding-2`, the top 4 dishes are retrieved as context, then `gemini-3.8-flash` streams an answer grounded only in those dishes |
 | 9 | El mismo patrón, otro mundo | Music closer: mood-based search and live MediaRecorder capture against a small Peruvian music collection (huayno, marinera, criolla, chicha, yaraví, festejo) |
 | 10 | Lo que pasa por debajo | The actual stack, costs, model identifiers, and the minimal diff to add multimodal to a text-only Firebase app |
 | 11 | Gracias | Closing slide that mirrors the opening animation |
@@ -133,7 +133,7 @@ For each entry in `data/dishes.json` (about 50 hand-curated Peruvian dishes):
 
 1. Fetches the page summary from the Spanish Wikipedia REST API.
 2. Downloads the article's featured image, uploads it to Firebase Storage.
-3. Asks `gemini-2.5-flash` for a richer description, recipe text, ingredients, and mood tags.
+3. Asks `gemini-3.8-flash` for a richer description, recipe text, ingredients, and mood tags.
 4. Generates two embeddings: text-only into `embedding_text` (768 dim) and multimodal (text plus image bundled) into `embedding_mm` (1536 dim).
 5. Writes the document to Firestore at `presentation_dishes/{slug}`.
 

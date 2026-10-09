@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { cn } from '@/lib/cn'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Stage = 'idle' | 'reading' | 'chunking' | 'embedding' | 'storing' | 'done' | 'error'
 
@@ -16,11 +17,12 @@ export function IndexingAnimation({
   errorMessage?: string
   className?: string
 }) {
+  const { t } = useLanguage()
   const steps: { id: Stage; label: string }[] = [
-    { id: 'reading', label: 'Leyendo el PDF' },
-    { id: 'chunking', label: 'Dividiendo en fragmentos' },
-    { id: 'embedding', label: 'Generando el embedding' },
-    { id: 'storing', label: 'Escribiendo en Firestore' },
+    { id: 'reading', label: t('indexing.reading') },
+    { id: 'chunking', label: t('indexing.chunking') },
+    { id: 'embedding', label: t('indexing.embedding') },
+    { id: 'storing', label: t('indexing.storing') },
   ]
   const order: Stage[] = ['idle', 'reading', 'chunking', 'embedding', 'storing', 'done', 'error']
   const reached = (s: Stage) => order.indexOf(stage) >= order.indexOf(s)
@@ -54,7 +56,7 @@ export function IndexingAnimation({
             exit={{ opacity: 0 }}
             className="font-mono text-xs text-[var(--color-muted)]"
           >
-            calculando 1536 números…
+            {t('indexing.computing')}
           </motion.div>
         )}
         {stage === 'done' && embeddingPreview && (
@@ -83,7 +85,7 @@ export function IndexingAnimation({
             animate={{ opacity: 1 }}
             className="text-sm text-[var(--color-accent)]"
           >
-            Error: {errorMessage}
+            {t('ui.error')}: {errorMessage}
           </motion.div>
         )}
       </AnimatePresence>

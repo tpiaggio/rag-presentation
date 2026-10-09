@@ -11,15 +11,15 @@ import { useLanguage } from '@/lib/useLanguage'
 
 const SCENE_NUMBER = '08'
 
-const CODE = `// 1) Recuperar: la pregunta se vuelve un vector multimodal
-const vector = await embedMultimodal(pregunta)
-const contexto = await findNearestDishes(vector, 'embedding_mm', 4)
+const code = (t: (key: string) => string) => `// 1) ${t('pregunta.codeRetrieve')}
+const vector = await embedMultimodal(question)
+const context = await findNearestDishes(vector, 'embedding_mm', 4)
 
-// 2) Generar: Gemini responde fundamentado SOLO en lo recuperado
+// 2) ${t('pregunta.codeGenerate')}
 const result = streamText({
-  model: google('gemini-3.5-flash'),
-  system: 'Usá únicamente los platos del contexto…',
-  prompt: \`CONTEXTO:\\n\${contexto}\\n\\nPREGUNTA:\\n\${pregunta}\`,
+  model: google('gemini-3.8-flash'),
+  system: '${t('pregunta.codeSystem')}',
+  prompt: \`CONTEXT:\\n\${context}\\n\\nQUESTION:\\n\${question}\`,
 })
 return result.toTextStreamResponse()`
 
@@ -124,9 +124,8 @@ export default function Pregunta() {
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">{t('scene.pregunta')}</h1>
         <p className="text-[var(--color-muted)]">
-          Recuperación <span className="text-[var(--color-fg)]">+</span> generación ={' '}
-          <span className="font-semibold text-[var(--color-accent)]">RAG</span>. {t('pregunta.process')}
-          únicamente de los platos recuperados.
+          {t('pregunta.retrieval')} <span className="text-[var(--color-fg)]">+</span> {t('pregunta.generation')} ={' '}
+          <span className="font-semibold text-[var(--color-accent)]">RAG</span>. {t('pregunta.answerSource')}
         </p>
       </header>
 
@@ -149,7 +148,7 @@ export default function Pregunta() {
           disabled={busy || query.trim().length === 0}
           className="rounded-md bg-[var(--color-fg)] px-6 text-sm text-white disabled:opacity-40"
         >
-          Preguntar
+          {t('pregunta.button')}
         </button>
         {phase !== 'idle' && !busy && (
           <button
@@ -157,7 +156,7 @@ export default function Pregunta() {
             onClick={reset}
             className="rounded-md border border-[var(--color-border)] px-4 text-sm text-[var(--color-muted)]"
           >
-            limpiar
+            {t('pregunta.clear')}
           </button>
         )}
       </form>
@@ -189,7 +188,7 @@ export default function Pregunta() {
         {/* Contexto recuperado */}
         <div className="col-span-2 flex flex-col gap-3">
           <div className="flex items-center gap-2 text-sm uppercase tracking-widest text-[var(--color-muted)]">
-            Contexto recuperado
+            {t('pregunta.contextTitle')}
             {phase === 'retrieving' && <LoadingDot size={14} />}
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -207,7 +206,7 @@ export default function Pregunta() {
             </AnimatePresence>
             {hits.length === 0 && phase !== 'retrieving' && (
               <div className="col-span-2 rounded-md border border-dashed border-[var(--color-border)] p-6 text-center text-sm text-[var(--color-muted)]">
-                Hacé una pregunta para recuperar platos.
+                {t('pregunta.emptyContext')}
               </div>
             )}
           </div>
@@ -216,7 +215,7 @@ export default function Pregunta() {
         {/* Respuesta generada */}
         <div className="col-span-3 flex flex-col gap-3">
           <div className="flex items-center gap-2 text-sm uppercase tracking-widest text-[var(--color-accent)]">
-            Respuesta fundamentada
+            {t('pregunta.answerTitle')}
             {phase === 'answering' && <LoadingDot size={14} />}
           </div>
           <div
@@ -235,23 +234,23 @@ export default function Pregunta() {
             ) : (
               <span className="text-[var(--color-muted)]">
                 {phase === 'retrieving'
-                  ? 'Recuperando contexto…'
+                  ? t('pregunta.retrieving')
                   : phase === 'answering'
-                    ? 'Pensando…'
-                    : 'La respuesta de Gemini aparecerá acá, citando los platos recuperados.'}
+                    ? t('pregunta.thinking')
+                    : t('pregunta.answerPlaceholder')}
               </span>
             )}
           </div>
           {phase === 'done' && hits.length > 0 && (
             <div className="text-xs text-[var(--color-muted)]">
-              Fundamentado en {hits.length} platos · modelo{' '}
-              <span className="font-mono">gemini-3.5-flash</span>
+              {t('pregunta.groundedIn').replace('{count}', String(hits.length))}{' '}
+              <span className="font-mono">gemini-3.8-flash</span>
             </div>
           )}
         </div>
       </div>
 
-      <CodePanel code={CODE} />
+      <CodePanel code={code(t)} />
     </div>
   )
 }

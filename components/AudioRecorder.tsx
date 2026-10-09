@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/cn'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Props = {
   onRecorded: (mimeType: string, base64: string) => void
@@ -16,6 +17,7 @@ function formatElapsed(ms: number): string {
 }
 
 export function AudioRecorder({ onRecorded, className }: Props) {
+  const { t } = useLanguage()
   const [state, setState] = useState<'idle' | 'recording' | 'processing'>('idle')
   const [elapsedMs, setElapsedMs] = useState(0)
   const chunks = useRef<Blob[]>([])
@@ -86,15 +88,15 @@ export function AudioRecorder({ onRecorded, className }: Props) {
             : 'bg-[var(--color-muted)]',
         )}
       />
-      {state === 'idle' && 'Grabar en vivo'}
+      {state === 'idle' && t('ui.recordLive')}
       {state === 'recording' && (
         <span className="flex items-center gap-3">
           <span className="font-mono tabular-nums">{formatElapsed(elapsedMs)}</span>
           <span className="text-[var(--color-muted)]">·</span>
-          <span>Click para detener</span>
+          <span>{t('ui.clickToStop')}</span>
         </span>
       )}
-      {state === 'processing' && 'Procesando…'}
+      {state === 'processing' && t('ui.processing')}
     </button>
   )
 }

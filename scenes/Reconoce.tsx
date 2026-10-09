@@ -56,7 +56,7 @@ export default function Reconoce() {
           <div className="flex flex-col gap-2">
             <img
               src={photo}
-              alt="captura"
+              alt={t('reconoce.captureAlt')}
               className="aspect-video w-full rounded-md border border-[var(--color-border)] object-cover"
             />
             <button
@@ -84,7 +84,7 @@ export default function Reconoce() {
           {hits[0] && (
             <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-sm leading-relaxed">
               <div className="text-xs uppercase tracking-widest text-[var(--color-muted)]">
-                Receta · {hits[0].doc.name_es}
+                {t('reconoce.recipe')} · {hits[0].doc.name_es}
               </div>
               <p className="pt-1 whitespace-pre-line">{hits[0].doc.recipe}</p>
             </div>

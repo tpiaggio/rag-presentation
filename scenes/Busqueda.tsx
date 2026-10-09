@@ -30,13 +30,6 @@ const snap = await adminDb
   })
   .get()`
 
-const SUGERIDAS = [
-  'ceviche',
-  'comida reconfortante en día lluvioso',
-  'algo dulce y cremoso',
-  'plato típico de la sierra',
-]
-
 export default function Busqueda() {
   const { t } = useLanguage()
   const [query, setQuery] = useState('')
@@ -125,6 +118,7 @@ function Column({
   loading: boolean
   highlight?: boolean
 }) {
+  const { t } = useLanguage()
   return (
     <div className="flex min-w-0 flex-col gap-3">
       <div className="flex items-center justify-between">
@@ -141,7 +135,7 @@ function Column({
       <div className="grid grid-cols-3 gap-3">
         {hits.length === 0 && !loading && (
           <div className="col-span-3 rounded-md border border-dashed border-[var(--color-border)] p-6 text-center text-sm text-[var(--color-muted)]">
-            sin resultados
+            {t('busqueda.noResults')}
           </div>
         )}
         {hits.map((h) => (

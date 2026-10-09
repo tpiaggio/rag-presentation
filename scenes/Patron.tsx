@@ -14,12 +14,6 @@ const CODE = `const vector = await embedMultimodal('', [
 ])
 const hits = await findNearestSongs(vector, 6)`
 
-const MOODS = [
-  'paisajes andinos con zampoñas, instrumental y nostálgico',
-  'fiesta del pueblo con interacción de guitarra y charango',
-  'tristeza por un amor que se fue',
-]
-
 const GENRES: SongGenre[] = ['huayno', 'marinera', 'criolla', 'chicha', 'yaravi', 'festejo']
 
 type Mode = 'mood' | 'live' | 'upload'
@@ -84,16 +78,16 @@ export default function Patron() {
         </div>
         <h1 className="text-4xl font-semibold tracking-tight">{t('scene.patron')}</h1>
         <p className="text-[var(--color-muted)]">
-          Música peruana. La misma forma de embebido aplica.
+          {t('patron.subtitle')}
         </p>
       </header>
 
       <div className="flex flex-wrap gap-2 text-xs">
         {(
           [
-            ['mood', 'Buscar por mood'],
-            ['live', 'Grabar en vivo (instrumento)'],
-            ['upload', 'Subir canción'],
+            ['mood', t('patron.modeMood')],
+            ['live', t('patron.modeLive')],
+            ['upload', t('patron.modeUpload')],
           ] as [Mode, string][]
         ).map(([m, label]) => (
           <button
@@ -273,7 +267,7 @@ function UploadForm({ t }: { t: (key: string) => string }) {
             )}
           >
             <option value="" disabled>
-              Género *
+              {t('patron.genre')}
             </option>
             {GENRES.map((g) => (
               <option key={g} value={g} className="text-[var(--color-fg)]">
@@ -316,21 +310,19 @@ function UploadForm({ t }: { t: (key: string) => string }) {
             className="rounded-md bg-[var(--color-fg)] px-5 py-2 text-sm text-white disabled:opacity-40"
           >
             {status === 'uploading'
-              ? 'Subiendo…'
+              ? t('patron.uploading')
               : status === 'done'
-                ? '¡Listo!'
+                ? t('patron.ready')
                 : status === 'analyzing'
-                  ? 'Esperando análisis…'
-                  : 'Subir y embeber'}
+                  ? t('patron.waitingAnalysis')
+                  : t('patron.uploadButton')}
           </button>
           {(status === 'uploading' || status === 'analyzing') && <LoadingDot size={16} />}
           {status === 'done' && (
             <span className="text-xs text-[var(--color-accent-3)]">
-              ¡Embebida y guardada!
-              {embedMode === 'text-only'
-                ? ' (audio muy largo, usamos texto solo)'
-                : ' (audio + texto)'}{' '}
-              Probá &quot;Buscar por mood&quot; cuando quieras.
+              {t('patron.saved')}{' '}
+              {embedMode === 'text-only' ? t('patron.savedTextOnly') : t('patron.savedAudioText')}{' '}
+              {t('patron.tryMood')}
             </span>
           )}
           {status === 'error' && (
@@ -367,6 +359,7 @@ function DropZone({
   audioObjectUrl: string | null
   onFile: (f: File) => void
 }) {
+  const { t } = useLanguage()
   return (
     <div
       className={cn(
@@ -385,8 +378,8 @@ function DropZone({
       {!file ? (
         <label className="flex cursor-pointer flex-col items-center gap-2">
           <span className="text-4xl">🎵</span>
-          <span className="font-semibold">Arrastrá un mp3 acá</span>
-          <span className="text-xs text-[var(--color-muted)]">o hacé click</span>
+          <span className="font-semibold">{t('patron.dragDrop')}</span>
+          <span className="text-xs text-[var(--color-muted)]">{t('patron.or')}</span>
           <input
             type="file"
             accept="audio/*"
@@ -413,18 +406,18 @@ function DropZone({
             {status === 'analyzing' && <LoadingDot size={14} />}
             <span>
               {status === 'analyzing'
-                ? 'Gemini está analizando el clip…'
+                ? t('patron.analyzing')
                 : status === 'analyzed'
-                  ? 'Metadatos sugeridos por Gemini, editá si querés'
+                  ? t('patron.analyzed')
                   : status === 'uploading'
-                    ? 'Subiendo a Firebase Storage…'
+                    ? t('patron.uploadingStorage')
                     : status === 'done'
-                      ? '¡Listo!'
-                      : 'Listo para subir'}
+                      ? t('patron.ready')
+                      : t('patron.readyToUpload')}
             </span>
           </div>
           <label className="cursor-pointer text-xs text-[var(--color-muted)] underline">
-            Cambiar archivo
+            {t('patron.changeFile')}
             <input
               type="file"
               accept="audio/*"

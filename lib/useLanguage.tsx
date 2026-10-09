@@ -24,6 +24,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    document.documentElement.lang = language
+  }, [language])
+
   const setLanguage = (lang: Language) => {
     setLanguageState(lang)
     setLanguageCookie(lang)

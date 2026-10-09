@@ -1,6 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Props = {
   open: boolean
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export function PresenterNotes({ open, onClose, title, notes }: Props) {
+  const { t } = useLanguage()
   return (
     <AnimatePresence>
       {open && (
@@ -29,11 +31,11 @@ export function PresenterNotes({ open, onClose, title, notes }: Props) {
             className="absolute inset-x-12 bottom-12 max-h-[40vh] overflow-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
           >
             <div className="mb-2 text-xs uppercase tracking-wider text-[var(--color-muted)]">
-              Notas · {title}
+              {t('ui.notes')} · {title}
             </div>
             <p className="whitespace-pre-line text-sm leading-relaxed">{notes}</p>
             <div className="mt-4 text-xs text-[var(--color-muted)]">
-              Cmd+. para cerrar
+              {t('ui.notesClose')}
             </div>
           </motion.div>
         </motion.div>

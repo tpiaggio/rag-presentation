@@ -110,7 +110,7 @@ export default function Gracias() {
           transition={{ duration: 0.7, delay: 2.5 }}
           className="mt-8 max-w-3xl text-2xl leading-snug text-[var(--color-fg)]"
         >
-          El embedding ya aprendió el sabor del ceviche.
+          {t('gracias.headline')}
           <br />
           <span className="text-[var(--color-muted)]">{t('gracias.message')}</span>
         </motion.p>
@@ -153,7 +153,7 @@ export default function Gracias() {
           transition={{ duration: 0.6, delay: 3.4 }}
           className="mt-12 text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]"
         >
-          Construyan algo · Pregúntenme · Hablemos
+          {t('gracias.cta')}
         </motion.div>
       </div>
     </div>

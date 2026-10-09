@@ -17,7 +17,7 @@ export async function augmentDish(input: {
   wikipedia_extract: string
 }): Promise<DishAugmentation> {
   const { object } = await generateObject({
-    model: google('gemini-2.5-flash'),
+    model: google('gemini-3.8-flash'),
     schema: dishAugmentation,
     prompt: `Plato peruano: ${input.name_es}
 

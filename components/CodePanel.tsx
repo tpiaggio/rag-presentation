@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { cn } from '@/lib/cn'
+import { useLanguage } from '@/lib/useLanguage'
 
 type Props = {
   title?: string
@@ -13,12 +14,13 @@ type Props = {
 }
 
 export function CodePanel({
-  title = 'El código que está corriendo',
+  title,
   code,
   language = 'ts',
   className,
   defaultOpen = false,
 }: Props) {
+  const { t } = useLanguage()
   const [open, setOpen] = useState(defaultOpen)
   return (
     <div
@@ -32,7 +34,7 @@ export function CodePanel({
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between px-4 py-2 text-xs uppercase tracking-wider text-[var(--color-muted)]"
       >
-        <span>{title}</span>
+        <span>{title ?? t('embeddings.codeTitle')}</span>
         <span className="font-mono">{open ? '–' : '+'}</span>
       </button>
       <AnimatePresence initial={false}>

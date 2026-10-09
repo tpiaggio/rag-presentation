@@ -109,7 +109,7 @@ export default function Vivo() {
                 type="submit"
                 className="rounded-md bg-[var(--color-fg)] px-4 text-sm text-white"
               >
-                Buscar
+                {t('vivo.searchButton')}
               </button>
             </form>
           )}
@@ -136,6 +136,7 @@ function DropZone({
   onFile: (file: File) => void
   stage: Stage
 }) {
+  const { t } = useLanguage()
   return (
     <label
       className="flex aspect-square min-h-[280px] cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] text-center"
@@ -148,9 +149,9 @@ function DropZone({
     >
       <span className="text-3xl">📄</span>
       <span className="font-semibold">
-        {stage === 'idle' ? 'Arrastrá un PDF acá' : 'Procesando…'}
+        {stage === 'idle' ? t('vivo.dragDrop') : t('ui.processing')}
       </span>
-      <span className="text-xs text-[var(--color-muted)]">o hacé click</span>
+      <span className="text-xs text-[var(--color-muted)]">{t('ui.orClick')}</span>
       <input
         type="file"
         accept="application/pdf"
